@@ -8,17 +8,11 @@ namespace CSVInventoryStorage
 {
     class Program
     {
-        private static void RegisterCommands()
-        {
-            CLIProcessor.RegisterCommand("addItem", (object[] args) => {
-                Console.Read();
-                return "";
-            });
-        }
-
         static void Main(string[] args)
         {
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
+
+            CLIProcessor.RegisterCommand(new CommandAddItem());
 
             string lastResult = "0";
 

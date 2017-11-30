@@ -43,7 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLIProcessor.cs" />
+    <Compile Include="CommandAddItem.cs" />
     <Compile Include="CommandRegisterException.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="InvalidArgumentException.cs" />
     <Compile Include="InvalidOperandException.cs" />
     <Compile Include="InvalidOperationException.cs" />
