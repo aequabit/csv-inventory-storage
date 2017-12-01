@@ -8,17 +8,17 @@ namespace CSVInventoryStorage
 {
     class CommandAddItem : ICommand
     {
-        public string commandName() => "addItem";
+        public string CommandName() => "addItem";
 
-        public int argCount() => 2;
+        public int ArgCount() => 2;
 
-        public string usage() => commandName() + " <key> <value>";
+        public string Usage() => CommandName() + " <key> <value>";
 
-        public string action(object[] args)
+        public string Action(object[] args)
         {
             return (string)args.ElementAt(0) + " => " + (string)args.ElementAt(1);
 
-            return usage();
+            return Usage();
         }
     }
 }

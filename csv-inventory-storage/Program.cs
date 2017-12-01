@@ -14,14 +14,14 @@ namespace CSVInventoryStorage
 
             CLIProcessor.RegisterCommand(new CommandAddItem());
 
-            string lastResult = "0";
+            var lastResult = "0";
 
             while (true)
             {
                 Console.Write("storage> ");
 
-                string input = Console.ReadLine()
-                    .Trim()
+                var input = Console.ReadLine()
+                    ?.Trim()
                     .Replace("&l", lastResult);
 
                 string processed;

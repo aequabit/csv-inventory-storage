@@ -8,9 +8,9 @@ namespace CSVInventoryStorage
 {
     public interface ICommand
     {
-        string commandName();
-        int argCount();
-        string usage();
-        string action(object[] args);
+        string CommandName();
+        int ArgCount();
+        string Usage();
+        string Action(object[] args);
     }
 }

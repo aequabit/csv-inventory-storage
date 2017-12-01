@@ -80,12 +80,12 @@ namespace CSVInventoryStorage
 
             object[] args = (object[])split.Skip(1).ToArray();
 
-            ICommand cmd = m_lCommands.Find(x => x.commandName() == command);
+            ICommand cmd = m_lCommands.Find(x => x.CommandName() == command);
             if (cmd != null)
             {
-                if (cmd.argCount() != -1 && args.Length != cmd.argCount())
-                    return cmd.usage();
-                return cmd.action(args);
+                if (cmd.ArgCount() != -1 && args.Length != cmd.ArgCount())
+                    return cmd.Usage();
+                return cmd.Action(args);
             }
 
             if (m_dLambdaCommands.ContainsKey(command))
