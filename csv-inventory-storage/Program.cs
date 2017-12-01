@@ -12,7 +12,10 @@ namespace CSVInventoryStorage
         {
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
 
-            CLIProcessor.RegisterCommand(new CommandAddItem());
+            CliProcessor.RegisterCommand(new CommandAddItem());
+            CliProcessor.RegisterCommand(new CommandEditItem());
+            CliProcessor.RegisterCommand(new CommandShow());
+            CliProcessor.RegisterCommand(new CommandDelItem());
 
             var lastResult = "0";
 
@@ -27,7 +30,7 @@ namespace CSVInventoryStorage
                 string processed;
                 try
                 {
-                    processed = lastResult = CLIProcessor.Process(input);
+                    processed = lastResult = CliProcessor.Process(input);
                 }
                 catch (Exception ex)
                 {

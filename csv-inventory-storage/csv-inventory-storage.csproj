@@ -44,7 +44,10 @@
   <ItemGroup>
     <Compile Include="CLIProcessor.cs" />
     <Compile Include="CommandAddItem.cs" />
+    <Compile Include="CommandEditItem.cs" />
     <Compile Include="CommandRegisterException.cs" />
+    <Compile Include="CommandDelItem.cs" />
+    <Compile Include="CommandShow.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="InvalidArgumentException.cs" />
     <Compile Include="InvalidOperandException.cs" />
