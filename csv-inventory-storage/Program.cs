@@ -31,6 +31,7 @@ namespace CSVInventoryStorage
                 try
                 {
                     processed = lastResult = CliProcessor.Process(input);
+
                 }
                 catch (Exception ex)
                 {

@@ -12,7 +12,7 @@ namespace CSVInventoryStorage
 
         public int ArgCount() => 1;
 
-        public string Usage() => "Usage: " + CommandName() + " <command>";
+        public string Usage() => "Enter \"all\" or any number to show a specific entry. \nUsage: " + CommandName() + " <value>";
 
         public string Action(object[] args)
         {

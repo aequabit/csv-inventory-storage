@@ -43,17 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLIProcessor.cs" />
-    <Compile Include="CommandAddItem.cs" />
-    <Compile Include="CommandEditItem.cs" />
-    <Compile Include="CommandRegisterException.cs" />
-    <Compile Include="CommandDelItem.cs" />
-    <Compile Include="CommandShow.cs" />
+    <Compile Include="Command\CommandAddItem.cs" />
+    <Compile Include="Command\CommandEditItem.cs" />
+    <Compile Include="Exception\CommandRegisterException.cs" />
+    <Compile Include="Command\CommandDelItem.cs" />
+    <Compile Include="Command\CommandShow.cs" />
     <Compile Include="ICommand.cs" />
-    <Compile Include="InvalidArgumentException.cs" />
-    <Compile Include="InvalidOperandException.cs" />
-    <Compile Include="InvalidOperationException.cs" />
+    <Compile Include="Exception\InvalidArgumentException.cs" />
+    <Compile Include="Exception\InvalidOperandException.cs" />
+    <Compile Include="Exception\InvalidOperationException.cs" />
     <Compile Include="InventoryItem.cs" />
-    <Compile Include="ProcessingException.cs" />
+    <Compile Include="Exception\ProcessingException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
