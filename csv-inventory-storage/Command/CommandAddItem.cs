@@ -1,44 +1,28 @@
 ﻿using System;
-using System.Linq;
 
 namespace CSVInventoryStorage
 {
     class CommandAddItem : ICommand
     {
-        readonly string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
         public string CommandName() => "addItem";
 
-        public int ArgCount() => 1;
+        public int ArgCount() => 4;
 
-        public string Usage() => ""
-            + "Bitte geben Sie eine Bezeichnung ein: \n"
-            + CommandName() + " <name>";
+        public string Usage() => CommandName() + " <description> <group> <inventoryId> <serialNumber>";
 
         public string Action(object[] args)
         {
-            var description = (string)args.ElementAt(0);
-
-            Console.WriteLine("Bitte geben Sie für das Inventarobjekt \"" + description + "\" die Inventargruppe ein: ");
-            var inventoryGroup = Console.ReadLine().Trim();
-
-            Console.WriteLine("Bitte geben Sie für das Inventarobjekt \"" + description + "\" die Inventarnummer ein: ");
-            var inventoryNumber = Console.ReadLine().Trim();
-
-            Console.WriteLine("Bitte geben Sie für das Inventarobjekt \"" + description + "\" die Seriennummer ein: ");
-            var serialNumber = Console.ReadLine().Trim();
-
-            var item = new InventoryItem
+            Storage.GetInstance().AddItem(new InventoryItem
             {
-                AddedAt = new DateTime(),
-                AddedBy = userName,
-                Description = (string)args.ElementAt(0),
-                InventoryGroup = inventoryGroup,
-                InventoryId = inventoryNumber,
-                SerialNumber = serialNumber
-            };
+                Description = (string)args[0],
+                InventoryGroup = (string)args[1],
+                InventoryId = (string)args[2],
+                SerialNumber = (string)args[3],
+                AddedAt = DateTime.Now,
+                AddedBy = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            });
 
-            return "neues inventoryitem von " + userName + " :: " + (string) args.ElementAt(0);
+            return "Added item!";
         }
     }
 }

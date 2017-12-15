@@ -42,20 +42,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CLIProcessor.cs" />
+    <Compile Include="CliProcessor.cs" />
     <Compile Include="Command\CommandAddItem.cs" />
     <Compile Include="Command\CommandEditItem.cs" />
     <Compile Include="Exception\CommandRegisterException.cs" />
-    <Compile Include="Command\CommandDelItem.cs" />
-    <Compile Include="Command\CommandShow.cs" />
+    <Compile Include="Command\CommandRemoveItem.cs" />
+    <Compile Include="Command\CommandListItems.cs" />
+    <Compile Include="CsvSerializableAttribute.cs" />
+    <Compile Include="CsvSerializer.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="Exception\InvalidArgumentException.cs" />
     <Compile Include="Exception\InvalidOperandException.cs" />
     <Compile Include="Exception\InvalidOperationException.cs" />
+    <Compile Include="Exception\InventoryStorageException.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="Exception\ProcessingException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

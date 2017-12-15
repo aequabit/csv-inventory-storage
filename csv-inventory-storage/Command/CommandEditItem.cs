@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace CSVInventoryStorage
 {
-    class CommandEditItem :ICommand
+    class CommandEditItem : ICommand
     {
         public string CommandName() => "editItem";
 
         public int ArgCount() => 1;
 
-        public string Usage() => "Usage: " + CommandName() + " <command>";
+        public string Usage() => CommandName() + " <...>";
 
         public string Action(object[] args)
         {

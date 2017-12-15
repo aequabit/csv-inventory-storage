@@ -9,24 +9,26 @@ namespace CSVInventoryStorage
     /// </summary>
     public class CliProcessor
     {
-        private static readonly List<ICommand> MlCommands = new List<ICommand>();
+        private static readonly List<ICommand> _commands = new List<ICommand>();
 
-        private static readonly Dictionary<string, Func<object[], string>> MdLambdaCommands = 
+        private static readonly Dictionary<string, Func<object[], string>> _lambdaCommands =
             new Dictionary<string, Func<object[], string>>() {
-                { "help", (object[] args) 
-                    => "Usage: <command|operator|function> [<operands...>]\n" +
-                       "Example input: + 5 10 15\n\nAvailable commands:\n  " +
-                       "help - Displays available commands\n  exit - Exits SimpleCalc\n\n" +
-                       "Available operators:\n  + - Adds two or more operands\n  - - " +
-                       "Subtracts two or more operands\n  * - Multiplies two or more numbers\n" +
-                       "  / - Divides two or more numbers\n\nAvailable functions:\n  sin - " +
-                       "Calculates the sinus of a number\n  cos - Calculates the cosinus of a number\n  " +
-                       "tan - Calculates the tangent of a number\n  deg2rad - " +
-                       "Converts an angle from degrees to radians\n\nAvailable placeholders:\n  " +
-                       "&l - Reference to the last result"},
-                { "exit", (object[] args) 
+                { "help", (object[] args)
+                    => "Usage: <command> [<arguments...>]\n\n" +
+                       "Available commands:\n  " +
+                       "exit - Exits the application\n  " +
+                       _buildUsage() },
+                { "exit", (object[] args)
                     => { Environment.Exit(0); return "Exiting..."; } }
         };
+
+        private static string _buildUsage()
+        {
+            var usages = new List<string>();
+            foreach (ICommand command in _commands)
+              usages.Add(command.Usage());
+            return String.Join("\n  ", usages.Select(x => x.ToString()));
+        }
 
         /// <summary>
         /// Registers a command.
@@ -34,10 +36,14 @@ namespace CSVInventoryStorage
         /// <param name="command">Instance of the command to register.</param>
         public static void RegisterCommand(ICommand command)
         {
-            if (MlCommands.Contains(command))
+            if (_commands.Where(x => x.CommandName() == command.CommandName()).Count() > 0)
                 throw new CommandRegisterException("Command already registered");
 
-            MlCommands.Add(command);
+            if (_lambdaCommands.ContainsKey(command.CommandName()))
+                throw new CommandRegisterException("Command already registered");
+
+
+            _commands.Add(command);
         }
 
         /// <summary>
@@ -47,10 +53,13 @@ namespace CSVInventoryStorage
         /// <param name="handler">Command handler delegate to register.</param>
         public static void RegisterCommand(string commandName, Func<object[], string> handler)
         {
-            if (MdLambdaCommands.ContainsKey(commandName))
+            if (_commands.Where(x => x.CommandName() == commandName).Count() > 0)
+              throw new CommandRegisterException("Command already registered");
+
+            if (_lambdaCommands.ContainsKey(commandName))
                 throw new CommandRegisterException("Command already registered");
 
-            MdLambdaCommands.Add(commandName, handler);
+            _lambdaCommands.Add(commandName, handler);
         }
 
         /// <summary>
@@ -59,10 +68,12 @@ namespace CSVInventoryStorage
         /// <param name="command">Command to unregister.</param>
         public static void UnregisterCommand(ICommand command)
         {
-            if (!MlCommands.Contains(command))
+            var matches = _commands.Where(x => x.CommandName() == command.CommandName());
+
+            if (matches.Count() == 0)
                 throw new CommandRegisterException("Command not registered");
 
-            MlCommands.Remove(command);
+            _commands.Remove(matches.ElementAt(0));
         }
 
         /// <summary>
@@ -71,10 +82,10 @@ namespace CSVInventoryStorage
         /// <param name="commandName">Name of the command to unregister.</param>
         public static void UnregisterCommand(string commandName)
         {
-            if (!MdLambdaCommands.ContainsKey(commandName))
+            if (!_lambdaCommands.ContainsKey(commandName))
                 throw new CommandRegisterException("Command not registered");
 
-            MdLambdaCommands.Remove(commandName);
+            _lambdaCommands.Remove(commandName);
         }
 
         /// <summary>
@@ -92,7 +103,7 @@ namespace CSVInventoryStorage
 
             var args = (object[])split.Skip(1).ToArray();
 
-            ICommand cmd = MlCommands.Find(x => x.CommandName() == command);
+            ICommand cmd = _commands.Find(x => x.CommandName() == command);
             if (cmd != null)
             {
                 if (cmd.ArgCount() != -1 && args.Length != cmd.ArgCount())
@@ -101,8 +112,8 @@ namespace CSVInventoryStorage
                 return cmd.Action(args);
             }
 
-            if (MdLambdaCommands.ContainsKey(command))
-                return MdLambdaCommands[command](args);
+            if (_lambdaCommands.ContainsKey(command))
+                return _lambdaCommands[command](args);
 
             throw new ProcessingException("Unknown operation or invalid arguments");
         }

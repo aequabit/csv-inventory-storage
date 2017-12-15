@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CSVInventoryStorage
 {
@@ -10,28 +6,43 @@ namespace CSVInventoryStorage
     {
         static void Main(string[] args)
         {
+            var item = new InventoryItem
+            {
+                Description    = "des\"cription",
+                InventoryGroup = "gr;oup",
+                InventoryId    = "id",
+                SerialNumber   = "se;ri\"al",
+                AddedAt        = DateTime.Now,
+                AddedBy        = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            };
+
+            CliProcessor.RegisterCommand("_ser", (object[] _args) => {
+                return CsvSerializer.Headers(item) + '\n' + CsvSerializer.Serialize(item);
+            });
+
+            CliProcessor.RegisterCommand("_des", (object[] _args) => {
+                var ser = CsvSerializer.Serialize(item);
+                var des = CsvSerializer.Deserialize<InventoryItem>(ser);
+                return CsvSerializer.Serialize(des);
+            });
+
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
 
             CliProcessor.RegisterCommand(new CommandAddItem());
+            CliProcessor.RegisterCommand(new CommandRemoveItem());
             CliProcessor.RegisterCommand(new CommandEditItem());
-            CliProcessor.RegisterCommand(new CommandShow());
-            CliProcessor.RegisterCommand(new CommandDelItem());
+            CliProcessor.RegisterCommand(new CommandListItems());
 
-            var lastResult = "0";
-
-            while (true)
-            {
+            while (true) {
                 Console.Write("storage> ");
 
-                var input = Console.ReadLine()
-                    ?.Trim()
-                    .Replace("&l", lastResult);
+                var input = Console.ReadLine()?.Trim();
 
                 string processed;
+
                 try
                 {
-                    processed = lastResult = CliProcessor.Process(input);
-
+                    processed = CliProcessor.Process(input);
                 }
                 catch (Exception ex)
                 {
@@ -41,7 +52,6 @@ namespace CSVInventoryStorage
 
                 Console.Write("{0}\n\n", processed);
             }
-
         }
     }
 }

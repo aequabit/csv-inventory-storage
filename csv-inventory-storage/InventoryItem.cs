@@ -8,64 +8,75 @@ namespace CSVInventoryStorage
         private string _inventoryGroup;
         private string _inventoryId;
         private string _serialNumber;
+        private DateTime _addedAt;
         private string _addedBy;
 
+        [CsvSerializable]
         public string Description {
             get => _description;
-            set => _description = Sanitize(value);
+            set => _description = value;
         }
+
+        [CsvSerializable]
         public string InventoryGroup
         {
             get => _inventoryGroup;
-            set => _inventoryGroup = Sanitize(value);
+            set => _inventoryGroup = value;
         }
+
+        [CsvSerializable]
         public string InventoryId
         {
             get => _inventoryId;
-            set => _inventoryId = Sanitize(value);
+            set => _inventoryId = value;
         }
+
+        [CsvSerializable]
         public string SerialNumber
         {
             get => _serialNumber;
-            set => _serialNumber = Sanitize(value);
+            set => _serialNumber = value;
         }
-        public DateTime AddedAt { get; set; }
 
+        [CsvSerializable]
+        public DateTime AddedAt
+        {
+            get => _addedAt;
+            set => _addedAt = value;
+        }
+
+        [CsvSerializable]
         public string AddedBy
         {
             get => _addedBy;
-            set => _addedBy = Sanitize(value);
+            set => _addedBy = value;
         }
 
         public string ToCsv()
         {
-            return
-                $"{_description};{_inventoryGroup};{_inventoryId};{_serialNumber};{AddedAt:dd.MM.yyyy};{_addedBy}";
+            return $"{_description};{_inventoryGroup};{_inventoryId};{_serialNumber};{_addedAt:dd.MM.yyyy};{_addedBy}";
         }
 
         public static InventoryItem FromCsv(string csv)
         {
+            // TODO: better serialization
+
             var parsed = csv.Split(';');
 
             return new InventoryItem()
-            {
-                Description = parsed[0],
-                InventoryGroup = parsed[1],
-                InventoryId = parsed[2],
-                SerialNumber = parsed[3],
-                AddedAt = DateTime.Parse(parsed[4]),
-                AddedBy = parsed[5]
-            };
+                   {
+                       Description    = parsed[0],
+                       InventoryGroup = parsed[1],
+                       InventoryId    = parsed[2],
+                       SerialNumber   = parsed[3],
+                       AddedAt        = DateTime.Parse(parsed[4]),
+                       AddedBy        = parsed[5]
+                   };
         }
 
         public static string Header()
         {
             return "Description;InventoryGroup;InventoryId;SerialNumber;AddedAt;AddedBy";
-        }
-
-        public static string Sanitize(string value)
-        {
-            return value.Replace(";", "").Replace("\"", "");
         }
     }
 }
