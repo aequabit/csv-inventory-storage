@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace CSVInventoryStorage
+﻿namespace CSVInventoryStorage.Exception
 {
-    public class CommandRegisterException : Exception
+    public class CommandRegisterException : System.Exception
     {
         public CommandRegisterException() { }
         public CommandRegisterException(string message) : base(message) { }
-        public CommandRegisterException(string message, Exception innerException) : base(message, innerException) { }
+        public CommandRegisterException(string message, System.Exception innerException) : base(message, innerException) { }
     }
 }

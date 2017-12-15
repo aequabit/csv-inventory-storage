@@ -1,4 +1,5 @@
 ﻿using System;
+using CSVInventoryStorage.Command;
 
 namespace CSVInventoryStorage
 {
@@ -26,7 +27,7 @@ namespace CSVInventoryStorage
                 {
                     processed = CliProcessor.Process(input);
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     Console.Write("{0}\n\n", ex.Message);
                     continue;

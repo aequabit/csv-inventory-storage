@@ -1,4 +1,6 @@
-namespace CSVInventoryStorage
+using System.Linq;
+
+namespace CSVInventoryStorage.Command
 {
     class CommandListItems : ICommand
     {
@@ -10,11 +12,7 @@ namespace CSVInventoryStorage
 
         public string Action(object[] args)
         {
-            var final = "";
-            foreach (var item in Storage.GetInstance().GetItems())
-              final += $"Added at: {item.AddedAt}\nAdded by: {item.AddedBy}\nDescription: {item.Description}\n" +
-              $"Group: {item.InventoryGroup}\nID: {item.InventoryId}\nSerial number: {item.SerialNumber}\n\n";
-            return final;
+            return Storage.GetInstance().GetItems().Aggregate("", (current, item) => current + ($"Added at: {item.AddedAt}\nAdded by: {item.AddedBy}\nDescription: {item.Description}\n" + $"Group: {item.InventoryGroup}\nID: {item.InventoryId}\nSerial number: {item.SerialNumber}\n\n"));
         }
     }
 }

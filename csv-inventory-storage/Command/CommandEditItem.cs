@@ -1,4 +1,4 @@
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Command
 {
     class CommandEditItem : ICommand
     {
