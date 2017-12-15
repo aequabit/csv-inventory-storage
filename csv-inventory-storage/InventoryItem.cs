@@ -55,7 +55,7 @@ namespace CSVInventoryStorage
         private string _checkSemicolons(string str)
         {
             if (str.Contains(";"))
-                throw new Exception("Semicolon not allowed in CSV value");
+                throw new System.Exception("Semicolon not allowed in CSV value");
             return str;
         }
 

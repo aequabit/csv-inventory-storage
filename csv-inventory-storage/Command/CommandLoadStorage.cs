@@ -17,7 +17,7 @@ namespace CSVInventoryStorage
         {
             var path = (string)args[0];
             if (!File.Exists(path))
-                throw new Exception("File does not exist");
+                throw new System.Exception("File does not exist");
 
             var csv = File.ReadAllText(path);
             var items = csv.Split('\n').ToList();

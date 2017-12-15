@@ -32,7 +32,7 @@ namespace CSVInventoryStorage
         public static string Escape(string val)
         {
             if (val.Contains(";"))
-                throw new Exception("Semicolon not allowed in CSV value");
+                throw new System.Exception("Semicolon not allowed in CSV value");
 
             bool mustQuote = (val.Contains(",") || val.Contains("\"") || val.Contains("\r") || val.Contains("\n"));
 
@@ -160,8 +160,6 @@ namespace CSVInventoryStorage
 
             return obj;
         }
-<<<<<<< HEAD
-=======
 
         private static string _trimQuotes(string str) {
           if (str.StartsWith("\""))
@@ -172,6 +170,5 @@ namespace CSVInventoryStorage
 
             return str;
         }
->>>>>>> 69c31f2d002f8ad1bed1552251df2f479d4be39d
     }
 }

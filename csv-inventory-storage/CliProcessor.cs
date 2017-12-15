@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CSVInventoryStorage.Exception;
 
 namespace CSVInventoryStorage
 {
@@ -38,10 +37,10 @@ namespace CSVInventoryStorage
         public static void RegisterCommand(ICommand command)
         {
             if (_commands.Where(x => x.CommandName() == command.CommandName()).Count() > 0)
-                throw new CommandRegisterException("Command already registered");
+                throw new Exception.CommandRegisterException("Command already registered");
 
             if (_lambdaCommands.ContainsKey(command.CommandName()))
-                throw new CommandRegisterException("Command already registered");
+                throw new Exception.CommandRegisterException("Command already registered");
 
 
             _commands.Add(command);
@@ -55,10 +54,10 @@ namespace CSVInventoryStorage
         public static void RegisterCommand(string commandName, Func<object[], string> handler)
         {
             if (_commands.Where(x => x.CommandName() == commandName).Count() > 0)
-              throw new CommandRegisterException("Command already registered");
+              throw new Exception.CommandRegisterException("Command already registered");
 
             if (_lambdaCommands.ContainsKey(commandName))
-                throw new CommandRegisterException("Command already registered");
+                throw new Exception.CommandRegisterException("Command already registered");
 
             _lambdaCommands.Add(commandName, handler);
         }
@@ -72,7 +71,7 @@ namespace CSVInventoryStorage
             var matches = _commands.Where(x => x.CommandName() == command.CommandName());
 
             if (matches.Count() == 0)
-                throw new CommandRegisterException("Command not registered");
+                throw new Exception.CommandRegisterException("Command not registered");
 
             _commands.Remove(matches.ElementAt(0));
         }
@@ -84,7 +83,7 @@ namespace CSVInventoryStorage
         public static void UnregisterCommand(string commandName)
         {
             if (!_lambdaCommands.ContainsKey(commandName))
-                throw new CommandRegisterException("Command not registered");
+                throw new Exception.CommandRegisterException("Command not registered");
 
             _lambdaCommands.Remove(commandName);
         }
@@ -98,7 +97,7 @@ namespace CSVInventoryStorage
         {
             var split = input.Split(' ');
             if (split.Length == 0)
-                throw new InvalidArgumentException("Invalid command");
+                throw new Exception.InvalidArgumentException("Invalid command");
 
             var command = split[0];
 
@@ -116,7 +115,7 @@ namespace CSVInventoryStorage
             if (_lambdaCommands.ContainsKey(command))
                 return _lambdaCommands[command](args);
 
-            throw new ProcessingException("Unknown operation or invalid arguments");
+            throw new Exception.ProcessingException("Unknown operation or invalid arguments");
         }
     }
 }
