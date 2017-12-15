@@ -42,7 +42,6 @@ namespace CSVInventoryStorage
             if (_lambdaCommands.ContainsKey(command.CommandName()))
                 throw new Exception.CommandRegisterException("Command already registered");
 
-
             _commands.Add(command);
         }
 
@@ -107,7 +106,7 @@ namespace CSVInventoryStorage
             if (cmd != null)
             {
                 if (cmd.ArgCount() != -1 && args.Length != cmd.ArgCount())
-                    return cmd.Usage();
+                    return "Usage: " + cmd.Usage();
 
                 return cmd.Action(args);
             }
