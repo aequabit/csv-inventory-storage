@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace CSVInventoryStorage
+﻿namespace CSVInventoryStorage.Exception
 {
-    public class ProcessingException : Exception {
+    public class ProcessingException : System.Exception {
         public ProcessingException() { }
         public ProcessingException(string message): base(message) { }
-        public ProcessingException(string message, Exception innerException) : base(message, innerException) { }
+        public ProcessingException(string message, System.Exception innerException) : base(message, innerException) { }
     }
 }

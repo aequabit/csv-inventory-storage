@@ -1,4 +1,5 @@
 ﻿using System;
+using CSVInventoryStorage.Command;
 
 namespace CSVInventoryStorage
 {
@@ -16,9 +17,7 @@ namespace CSVInventoryStorage
                 AddedBy        = System.Security.Principal.WindowsIdentity.GetCurrent().Name
             };
 
-            CliProcessor.RegisterCommand("_ser", (object[] _args) => {
-                return CsvSerializer.Headers(item) + '\n' + CsvSerializer.Serialize(item);
-            });
+            CliProcessor.RegisterCommand("_ser", (object[] _args) => CsvSerializer.Headers(item) + '\n' + CsvSerializer.Serialize(item));
 
             CliProcessor.RegisterCommand("_des", (object[] _args) => {
                 var ser = CsvSerializer.Serialize(item);
@@ -44,7 +43,7 @@ namespace CSVInventoryStorage
                 {
                     processed = CliProcessor.Process(input);
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     Console.Write("{0}\n\n", ex.Message);
                     continue;

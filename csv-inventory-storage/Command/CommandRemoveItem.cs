@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Command
 {
     class CommandRemoveItem : ICommand
     {

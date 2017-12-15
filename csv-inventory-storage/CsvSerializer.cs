@@ -10,7 +10,7 @@ namespace CSVInventoryStorage
     {
         public static Dictionary<Type, Func<object, string> > _serializers = new Dictionary<Type, Func<object, string> >()
         {
-            { typeof(DateTime), (object val) => { return ((DateTime)val).ToString("dd.MM.yyyy"); } },
+            { typeof(DateTime), (object val) => ((DateTime)val).ToString("dd.MM.yyyy")},
         };
 
         public static Dictionary<Type, Func<string, object> > _deserializers = new Dictionary<Type, Func<string, object> >()
@@ -31,14 +31,15 @@ namespace CSVInventoryStorage
         /// <param name="val">Value to escape.</param>
         public static string Escape(string val)
         {
-            bool mustQuote = (val.Contains(",") || val.Contains(";") || val.Contains("\"") || val.Contains("\r") || val.Contains("\n"));
+            var mustQuote = (val.Contains(",") || val.Contains(";") || val.Contains("\"") 
+                || val.Contains("\r") || val.Contains("\n"));
 
             if (!mustQuote)
                 return val;
 
             var sb = new StringBuilder();
             sb.Append("\"");
-            foreach (char nextChar in val) {
+            foreach (var nextChar in val) {
                 if (nextChar == '"')
                     sb.Append("”");
                 else
@@ -75,13 +76,10 @@ namespace CSVInventoryStorage
             var props = obj.GetType().GetProperties().Where(
                 p => p.GetCustomAttributes(typeof(CsvSerializableAttribute), true).Length != 0);
 
-            var header = "";
-
-            foreach (var prop in props)
-                header += prop.Name + ";";
+            var header = props.Aggregate("", (current, prop) => current + (prop.Name + ";"));
 
             if (header.EndsWith(";"))
-                header = header.Substring(0, header.LastIndexOf(";"));
+                header = header.Substring(0, header.LastIndexOf(";", StringComparison.Ordinal));
 
             return header;
         }
@@ -95,13 +93,10 @@ namespace CSVInventoryStorage
             var props = type.GetProperties().Where(
                 p => p.GetCustomAttributes(typeof(CsvSerializableAttribute), true).Length != 0);
 
-            var header = "";
-
-            foreach (var prop in props)
-                header += prop.Name + ";";
+            var header = props.Aggregate("", (current, prop) => current + (prop.Name + ";"));
 
             if (header.EndsWith(";"))
-                header = header.Substring(0, header.LastIndexOf(";"));
+                header = header.Substring(0, header.LastIndexOf(";", StringComparison.Ordinal));
 
             return header;
         }
@@ -122,16 +117,13 @@ namespace CSVInventoryStorage
                 var type = prop.PropertyType;
                 var val  = prop.GetValue(obj, null);
 
-                if (_serializers.ContainsKey(type))
-                    values.Add(_serializers[type]((object)val));
-                else
-                    values.Add(Escape(val.ToString()));
+                values.Add(_serializers.ContainsKey(type) ? _serializers[type]((object) val) : Escape(val.ToString()));
 
                 if (i < props.Count() - 1)
                     values.Add(";");
             }
 
-            return String.Concat(values);
+            return string.Concat(values);
         }
 
         /// <summary>
@@ -167,9 +159,12 @@ namespace CSVInventoryStorage
 
         private static string _trimQuotes(string str) {
           if (str.StartsWith("\""))
-              str = str.Substring(0, str.IndexOf("\""));
+              str = str.Substring(0, str.IndexOf("\"", StringComparison.Ordinal));
+
           if (str.EndsWith("\""))
-              str = str.Substring(0, str.LastIndexOf("\""));
+              str = str.Substring(0, str.LastIndexOf("\"", StringComparison.Ordinal));
+
+            return str;
         }
     }
 }
