@@ -17,11 +17,12 @@ namespace CSVInventoryStorage
                 AddedBy        = System.Security.Principal.WindowsIdentity.GetCurrent().Name
             };
 
-            CliProcessor.RegisterCommand("_ser", (object[] _args) => CsvSerializer.Headers(item) + '\n' + CsvSerializer.Serialize(item));
+            CliProcessor.RegisterCommand("_ser", _args => CsvSerializer.Headers(item) + '\n' + CsvSerializer.Serialize(item));
 
-            CliProcessor.RegisterCommand("_des", (object[] _args) => {
+            CliProcessor.RegisterCommand("_des", _args => {
                 var ser = CsvSerializer.Serialize(item);
                 var des = CsvSerializer.Deserialize<InventoryItem>(ser);
+
                 return CsvSerializer.Serialize(des);
             });
 
