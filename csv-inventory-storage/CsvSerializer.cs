@@ -31,7 +31,10 @@ namespace CSVInventoryStorage
         /// <param name="val">Value to escape.</param>
         public static string Escape(string val)
         {
-            bool mustQuote = (val.Contains(",") || val.Contains(";") || val.Contains("\"") || val.Contains("\r") || val.Contains("\n"));
+            if (val.Contains(";"))
+                throw new Exception("Semicolon not allowed in CSV value");
+
+            bool mustQuote = (val.Contains(",") || val.Contains("\"") || val.Contains("\r") || val.Contains("\n"));
 
             if (!mustQuote)
                 return val;
@@ -153,23 +156,18 @@ namespace CSVInventoryStorage
 
                 var type = prop.PropertyType;
 
-                var val = _trimQuotes(values.ElementAt(i));
+                var val = values.ElementAt(i);
 
-                object final = val;
+                object final;
                 if (_deserializers.ContainsKey(type))
                     final = _deserializers[type](val);
+                else
+                    final = val.Trim('"');
 
-                prop.SetValue(obj, val, null);
+                prop.SetValue(obj, final, null);
             }
 
             return obj;
-        }
-
-        private static string _trimQuotes(string str) {
-          if (str.StartsWith("\""))
-              str = str.Substring(0, str.IndexOf("\""));
-          if (str.EndsWith("\""))
-              str = str.Substring(0, str.LastIndexOf("\""));
         }
     }
 }

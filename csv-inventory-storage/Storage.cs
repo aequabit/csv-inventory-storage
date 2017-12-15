@@ -35,6 +35,10 @@ namespace CSVInventoryStorage
           _items.RemoveAll(x => x.InventoryId == inventoryId);
         }
 
+        public void SetItems(List<InventoryItem> items) {
+          _items = items;
+        }
+
         public List<InventoryItem> GetItems() {
           return _items;
         }

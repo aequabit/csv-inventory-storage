@@ -48,6 +48,8 @@
     <Compile Include="Exception\CommandRegisterException.cs" />
     <Compile Include="Command\CommandRemoveItem.cs" />
     <Compile Include="Command\CommandListItems.cs" />
+    <Compile Include="Command\CommandLoadStorage.cs" />
+    <Compile Include="Command\CommandSaveStorage.cs" />
     <Compile Include="CsvSerializableAttribute.cs" />
     <Compile Include="CsvSerializer.cs" />
     <Compile Include="ICommand.cs" />

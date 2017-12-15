@@ -14,28 +14,28 @@ namespace CSVInventoryStorage
         [CsvSerializable]
         public string Description {
             get => _description;
-            set => _description = value;
+            set => _description = _checkSemicolons(value);
         }
 
         [CsvSerializable]
         public string InventoryGroup
         {
             get => _inventoryGroup;
-            set => _inventoryGroup = value;
+            set => _inventoryGroup = _checkSemicolons(value);
         }
 
         [CsvSerializable]
         public string InventoryId
         {
             get => _inventoryId;
-            set => _inventoryId = value;
+            set => _inventoryId = _checkSemicolons(value);
         }
 
         [CsvSerializable]
         public string SerialNumber
         {
             get => _serialNumber;
-            set => _serialNumber = value;
+            set => _serialNumber = _checkSemicolons(value);
         }
 
         [CsvSerializable]
@@ -49,34 +49,19 @@ namespace CSVInventoryStorage
         public string AddedBy
         {
             get => _addedBy;
-            set => _addedBy = value;
+            set => _addedBy = _checkSemicolons(value);
+        }
+
+        private string _checkSemicolons(string str)
+        {
+            if (str.Contains(";"))
+                throw new Exception("Semicolon not allowed in CSV value");
+            return str;
         }
 
         public string ToCsv()
         {
-            return $"{_description};{_inventoryGroup};{_inventoryId};{_serialNumber};{_addedAt:dd.MM.yyyy};{_addedBy}";
-        }
-
-        public static InventoryItem FromCsv(string csv)
-        {
-            // TODO: better serialization
-
-            var parsed = csv.Split(';');
-
-            return new InventoryItem()
-                   {
-                       Description    = parsed[0],
-                       InventoryGroup = parsed[1],
-                       InventoryId    = parsed[2],
-                       SerialNumber   = parsed[3],
-                       AddedAt        = DateTime.Parse(parsed[4]),
-                       AddedBy        = parsed[5]
-                   };
-        }
-
-        public static string Header()
-        {
-            return "Description;InventoryGroup;InventoryId;SerialNumber;AddedAt;AddedBy";
+            return CsvSerializer.Serialize(this);
         }
     }
 }
