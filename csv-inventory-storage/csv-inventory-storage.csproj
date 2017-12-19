@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -42,29 +42,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CliProcessor.cs" />
-    <Compile Include="Command\CommandAddItem.cs" />
-    <Compile Include="Command\CommandEditItem.cs" />
-    <Compile Include="Exception\CommandRegisterException.cs" />
-    <Compile Include="Command\CommandRemoveItem.cs" />
-    <Compile Include="Command\CommandListItems.cs" />
-    <Compile Include="Command\CommandLoadStorage.cs" />
-    <Compile Include="Command\CommandSaveStorage.cs" />
-    <Compile Include="CsvSerializableAttribute.cs" />
-    <Compile Include="CsvSerializer.cs" />
-    <Compile Include="ICommand.cs" />
-    <Compile Include="Exception\InvalidArgumentException.cs" />
-    <Compile Include="Exception\InvalidOperandException.cs" />
-    <Compile Include="Exception\InvalidOperationException.cs" />
-    <Compile Include="Exception\InventoryStorageException.cs" />
-    <Compile Include="InventoryItem.cs" />
-    <Compile Include="Exception\ProcessingException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage.cs" />
+    <Compile Include="Cli\Processor.cs" />
+    <Compile Include="Cli\Commands\AddItem.cs" />
+    <Compile Include="Cli\Commands\EditItem.cs" />
+    <Compile Include="Cli\Commands\ListItems.cs" />
+    <Compile Include="Cli\Commands\LoadStorage.cs" />
+    <Compile Include="Cli\Commands\RemoveItem.cs" />
+    <Compile Include="Cli\Commands\SaveStorage.cs" />
+    <Compile Include="Cli\Exceptions\CommandRegisterException.cs" />
+    <Compile Include="Cli\Exceptions\InvalidArgumentException.cs" />
+    <Compile Include="Cli\Exceptions\InvalidOperandException.cs" />
+    <Compile Include="Cli\Exceptions\InvalidOperationException.cs" />
+    <Compile Include="Cli\Exceptions\ProcessingException.cs" />
+    <Compile Include="Serialization\CsvSerializableAttribute.cs" />
+    <Compile Include="Serialization\CsvSerializer.cs" />
+    <Compile Include="Inventory\Item.cs" />
+    <Compile Include="Inventory\Storage.cs" />
+    <Compile Include="Cli\Commands\ICommand.cs" />
+    <Compile Include="Inventory\Exceptions\InventoryStorageException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cli\" />
+    <Folder Include="Cli\Commands\" />
+    <Folder Include="Cli\Exceptions\" />
+    <Folder Include="Serialization\" />
+    <Folder Include="Inventory\" />
+    <Folder Include="Inventory\Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

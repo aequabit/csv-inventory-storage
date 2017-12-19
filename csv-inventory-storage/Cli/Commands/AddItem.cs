@@ -1,8 +1,9 @@
 ﻿using System;
+using CSVInventoryStorage.Inventory;
 
-namespace CSVInventoryStorage.Command
+namespace CSVInventoryStorage.Cli.Commands
 {
-    class CommandAddItem : ICommand
+    class AddItem : ICommand
     {
         public string CommandName() => "addItem";
 
@@ -12,7 +13,7 @@ namespace CSVInventoryStorage.Command
 
         public string Action(object[] args)
         {
-            Storage.GetInstance().AddItem(new InventoryItem
+            Storage.GetInstance().AddItem(new Item
             {
                 Description = (string)args[0],
                 InventoryGroup = (string)args[1],

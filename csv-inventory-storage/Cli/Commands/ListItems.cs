@@ -1,8 +1,9 @@
-using System.Linq;
+﻿using System.Linq;
+using CSVInventoryStorage.Inventory;
 
-namespace CSVInventoryStorage.Command
+namespace CSVInventoryStorage.Cli.Commands
 {
-    class CommandListItems : ICommand
+    class ListItems : ICommand
     {
         public string CommandName() => "listItems";
 

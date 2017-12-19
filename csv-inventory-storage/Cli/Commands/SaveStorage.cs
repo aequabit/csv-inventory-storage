@@ -1,9 +1,11 @@
 ﻿using System;
 ﻿using System.IO;
+using CSVInventoryStorage.Inventory;
+using CSVInventoryStorage.Serialization;
 
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Cli.Commands
 {
-    class CommandSaveStorage : ICommand
+    class SaveStorage : ICommand
     {
         public string CommandName() => "saveStorage";
 
@@ -13,7 +15,7 @@ namespace CSVInventoryStorage
 
         public string Action(object[] args)
         {
-            var final = CsvSerializer.Headers(typeof(InventoryItem));
+            var final = CsvSerializer.Headers(typeof(Item));
             foreach (var item in Storage.GetInstance().GetItems()) {
               final += '\n' + item.ToCsv();
             }

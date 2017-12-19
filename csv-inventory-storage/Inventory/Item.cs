@@ -1,8 +1,9 @@
 ﻿using System;
+using CSVInventoryStorage.Serialization;
 
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Inventory
 {
-    internal class InventoryItem
+    internal class Item
     {
         private string _description;
         private string _inventoryGroup;
@@ -15,9 +16,10 @@ namespace CSVInventoryStorage
         /// Description of the item.
         /// </summary>
         [CsvSerializable]
-        public string Description {
+        public string Description
+        {
             get => _description;
-            set => _description = _checkSemicolons(value);
+            set => _description = value;
         }
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace CSVInventoryStorage
         public string InventoryGroup
         {
             get => _inventoryGroup;
-            set => _inventoryGroup = _checkSemicolons(value);
+            set => _inventoryGroup = value;
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace CSVInventoryStorage
         public string InventoryId
         {
             get => _inventoryId;
-            set => _inventoryId = _checkSemicolons(value);
+            set => _inventoryId = value;
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace CSVInventoryStorage
         public string SerialNumber
         {
             get => _serialNumber;
-            set => _serialNumber = _checkSemicolons(value);
+            set => _serialNumber = value;
         }
 
         /// <summary>
@@ -64,15 +66,7 @@ namespace CSVInventoryStorage
         public string AddedBy
         {
             get => _addedBy;
-            set => _addedBy = _checkSemicolons(value);
-        }
-
-        // TODO: clean up
-        private string _checkSemicolons(string str)
-        {
-            if (str.Contains(";"))
-                throw new System.Exception("Semicolon not allowed in CSV value");
-            return str;
+            set => _addedBy = value;
         }
 
         /// <summary>

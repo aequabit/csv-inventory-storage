@@ -4,16 +4,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Serialization
 {
     class CsvSerializer
     {
-        public static Dictionary<Type, Func<object, string>> _serializers = new Dictionary<Type, Func<object, string>>()
+        private static Dictionary<Type, Func<object, string>> _serializers = new Dictionary<Type, Func<object, string>>()
         {
             { typeof(DateTime), (object val) => ((DateTime)val).ToString("dd.MM.yyyy")},
         };
 
-        public static Dictionary<Type, Func<string, object>> _deserializers = new Dictionary<Type, Func<string, object>>()
+        private static Dictionary<Type, Func<string, object>> _deserializers = new Dictionary<Type, Func<string, object>>()
         {
             { typeof(DateTime), (string val) => {
                   DateTime parsed;
@@ -24,51 +24,21 @@ namespace CSVInventoryStorage
               } }
         };
 
-        // Source: https://stackoverflow.com/a/6377656
         /// <summary>
         /// Escapes a value for use in CSV.
         /// </summary>
         /// <param name="val">Value to escape.</param>
-        public static string Escape(string val)
+
+        private static string Escape(string val)
         {
-            if (val.Contains(";"))
-                throw new System.Exception("Semicolon not allowed in CSV value");
+            if (val.Contains("\""))
+                val = val.Replace("\"", "\"\"");
 
-            bool mustQuote = (val.Contains(",") || val.Contains("\"") || val.Contains("\r") || val.Contains("\n"));
+            if (val.Contains(";") || val.Contains("\r") || val.Contains("\n"))
+                val = "\"" + val + "\""; // TODO: cleanup
 
-            if (!mustQuote)
-                return val;
-
-            var sb = new StringBuilder();
-            sb.Append("\"");
-            foreach (var nextChar in val)
-            {
-                if (nextChar == '"')
-                    sb.Append("”");
-                else
-                    sb.Append(nextChar);
-            }
-            sb.Append("\"");
-            return sb.ToString();
+            return val;
         }
-
-        /*/// <summary>
-        /// Escapes a value for use in CSV.
-        /// </summary>
-        /// <param name="val">Value to escape.</param>
-
-        private string Escape(string val)
-        {
-         var final = val;
-        
-         if (final.Contains('"'))
-             final.Replace("\"", "”");
-        
-         if (final.Contains(";"))
-             final = "\"" + final + "\"";         // TODO: cleanup
-        
-         return final;
-        }*/
 
         /// <summary>
         /// Gets the CSV headers from an object.

@@ -1,6 +1,6 @@
 using System;
 
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Serialization
 {
     class CsvSerializableAttribute : Attribute
     {

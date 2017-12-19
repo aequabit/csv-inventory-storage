@@ -1,6 +1,6 @@
-namespace CSVInventoryStorage.Command
+﻿namespace CSVInventoryStorage.Cli.Commands
 {
-    class CommandEditItem : ICommand
+    class EditItem : ICommand
     {
         public string CommandName() => "editItem";
 

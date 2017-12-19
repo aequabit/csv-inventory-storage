@@ -1,8 +1,9 @@
-using System.Linq;
+﻿using System.Linq;
+using CSVInventoryStorage.Inventory;
 
-namespace CSVInventoryStorage.Command
+namespace CSVInventoryStorage.Cli.Commands
 {
-    class CommandRemoveItem : ICommand
+    class RemoveItem : ICommand
     {
         public string CommandName() => "removeItem";
 

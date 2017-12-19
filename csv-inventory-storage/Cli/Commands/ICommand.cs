@@ -1,4 +1,4 @@
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Cli.Commands
 {
     public interface ICommand
     {

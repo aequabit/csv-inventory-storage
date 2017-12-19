@@ -1,5 +1,6 @@
 ﻿using System;
-using CSVInventoryStorage.Command;
+using CSVInventoryStorage.Cli;
+using CSVInventoryStorage.Cli.Commands;
 
 namespace CSVInventoryStorage
 {
@@ -9,12 +10,12 @@ namespace CSVInventoryStorage
         {
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
 
-            CliProcessor.RegisterCommand(new CommandAddItem());
-            CliProcessor.RegisterCommand(new CommandRemoveItem());
-            CliProcessor.RegisterCommand(new CommandEditItem());
-            CliProcessor.RegisterCommand(new CommandListItems());
-            CliProcessor.RegisterCommand(new CommandLoadStorage());
-            CliProcessor.RegisterCommand(new CommandSaveStorage());
+            Processor.RegisterCommand(new AddItem());
+            Processor.RegisterCommand(new RemoveItem());
+            Processor.RegisterCommand(new EditItem());
+            Processor.RegisterCommand(new ListItems());
+            Processor.RegisterCommand(new LoadStorage());
+            Processor.RegisterCommand(new SaveStorage());
 
             while (true) {
                 Console.Write("storage> ");
@@ -25,9 +26,9 @@ namespace CSVInventoryStorage
 
                 try
                 {
-                    processed = CliProcessor.Process(input);
+                    processed = Processor.Process(input);
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     Console.Write("{0}\n\n", ex.Message);
                     continue;
