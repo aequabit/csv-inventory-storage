@@ -11,12 +11,18 @@ namespace CSVInventoryStorage
         private DateTime _addedAt;
         private string _addedBy;
 
+        /// <summary>
+        /// Description of the item.
+        /// </summary>
         [CsvSerializable]
         public string Description {
             get => _description;
             set => _description = _checkSemicolons(value);
         }
 
+        /// <summary>
+        /// Inventory group of the item.
+        /// </summary>
         [CsvSerializable]
         public string InventoryGroup
         {
@@ -24,6 +30,9 @@ namespace CSVInventoryStorage
             set => _inventoryGroup = _checkSemicolons(value);
         }
 
+        /// <summary>
+        /// Inventory ID of the item.
+        /// </summary>
         [CsvSerializable]
         public string InventoryId
         {
@@ -31,6 +40,9 @@ namespace CSVInventoryStorage
             set => _inventoryId = _checkSemicolons(value);
         }
 
+        /// <summary>
+        /// Serial number of the item.
+        /// </summary>
         [CsvSerializable]
         public string SerialNumber
         {
@@ -38,6 +50,9 @@ namespace CSVInventoryStorage
             set => _serialNumber = _checkSemicolons(value);
         }
 
+        /// <summary>
+        /// Date the item was added at.
+        /// </summary>
         [CsvSerializable]
         public DateTime AddedAt
         {
@@ -52,6 +67,7 @@ namespace CSVInventoryStorage
             set => _addedBy = _checkSemicolons(value);
         }
 
+        // TODO: clean up
         private string _checkSemicolons(string str)
         {
             if (str.Contains(";"))
@@ -59,6 +75,10 @@ namespace CSVInventoryStorage
             return str;
         }
 
+        /// <summary>
+        /// CSV serializes the inventory item.
+        /// </summary>
+        /// <returns>CSV serialized inventory item.</returns>
         public string ToCsv()
         {
             return CsvSerializer.Serialize(this);
