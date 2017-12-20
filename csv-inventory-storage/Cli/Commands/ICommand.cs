@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace CSVInventoryStorage.Cli.Commands
 {
     public interface ICommand
@@ -5,6 +7,6 @@ namespace CSVInventoryStorage.Cli.Commands
         string CommandName();
         int ArgCount();
         string Usage();
-        string Action(object[] args);
+        string Action(List<string> args);
     }
 }

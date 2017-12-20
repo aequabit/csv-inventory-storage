@@ -13,15 +13,13 @@ namespace CSVInventoryStorage.Cli
     {
         private static readonly List<ICommand> _commands = new List<ICommand>();
 
-        private static readonly Dictionary<string, Func<object[], string>> _lambdaCommands =
-            new Dictionary<string, Func<object[], string>>() {
-                { "help", (object[] args)
-                    => "Usage: <command> [<arguments...>]\n\n" +
+        private static readonly Dictionary<string, Func<List<string>, string>> _lambdaCommands =
+            new Dictionary<string, Func<List<string>, string>>() {
+                { "help", args => "Usage: <command> [<arguments...>]\n\n" +
                        "Available commands:\n  " +
                        "exit - Exits the application\n  " +
                        _buildUsage() },
-                { "exit", (object[] args)
-                    => { Environment.Exit(0); return "Exiting..."; } }
+                { "exit", args => { Environment.Exit(0); return "Exiting..."; } }
         };
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace CSVInventoryStorage.Cli
         {
             var usages = new List<string>();
             foreach (ICommand command in _commands)
-              usages.Add(command.Usage());
+                usages.Add(command.Usage());
             return String.Join("\n  ", usages.Select(x => x.ToString()));
         }
 
@@ -56,10 +54,10 @@ namespace CSVInventoryStorage.Cli
         /// </summary>
         /// <param name="commandName">Name of the command to register.</param>
         /// <param name="handler">Command handler delegate to register.</param>
-        public static void RegisterCommand(string commandName, Func<object[], string> handler)
+        public static void RegisterCommand(string commandName, Func<List<string>, string> handler)
         {
             if (_commands.Where(x => x.CommandName() == commandName).Count() > 0)
-              throw new CommandRegisterException("Command already registered");
+                throw new CommandRegisterException("Command already registered");
 
             if (_lambdaCommands.ContainsKey(commandName))
                 throw new CommandRegisterException("Command already registered");
@@ -106,12 +104,12 @@ namespace CSVInventoryStorage.Cli
 
             var command = split[0];
 
-            var args = (object[])split.Skip(1).ToArray();
+            var args = split.Skip(1).ToList();
 
             ICommand cmd = _commands.Find(x => x.CommandName() == command);
             if (cmd != null)
             {
-                if (cmd.ArgCount() != -1 && args.Length != cmd.ArgCount())
+                if (cmd.ArgCount() != -1 && args.Count != cmd.ArgCount())
                     return "Usage: " + cmd.Usage();
 
                 return cmd.Action(args);

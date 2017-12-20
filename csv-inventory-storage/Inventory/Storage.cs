@@ -73,16 +73,52 @@ namespace CSVInventoryStorage.Inventory
         }
 
         /// <summary>
+        /// Gets an item by a property.
+        /// </summary>
+        /// <returns>The item.</returns>
+        /// <param name="propertyName">Property to get the item by.</param>
+        /// <param name="value">Value to get the item by.</param>
+        public Item GetItem(string propertyName, string value)
+        {
+            var props = typeof(Item).GetProperties();
+
+            var matches = props.Where(prop => prop.Name == propertyName);
+            if (matches.Count() == 0)
+                return null;
+
+            var property = matches.First();
+
+            var items = GetItems().Where(item => property.GetValue(item, null).ToString() == value);
+            if (items.Count() == 0)
+                return null;
+
+            return items.First();
+        }
+
+        /// <summary>
         /// Gets an item by it's inventory ID.
         /// </summary>
         /// <returns>Inventory ID of the item.</returns>
-        /// <param name="inventoryId">Inventory identifier.</param>
-        public Item GetItem(string inventoryId)
+        /// <param name="inventoryId">Inventory ID.</param>
+        public Item GetItemById(string inventoryId)
         {
             var matches = _items.Where(x => x.InventoryId == inventoryId);
 
             var inventoryItems = matches as Item[] ?? matches.ToArray();
             return !inventoryItems.Any() ? null : inventoryItems.First();
         }
+
+		/// <summary>
+		/// Gets an item by it's serial number.
+		/// </summary>
+		/// <returns>Serial number of the item.</returns>
+		/// <param name="serialNumber">Serial number.</param>
+		public Item GetItemBySerialNumber(string serialNumber)
+		{
+			var matches = _items.Where(x => x.SerialNumber == serialNumber);
+
+			var inventoryItems = matches as Item[] ?? matches.ToArray();
+			return !inventoryItems.Any() ? null : inventoryItems.First();
+		}
     }
 }

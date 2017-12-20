@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CSVInventoryStorage.Inventory;
 
 namespace CSVInventoryStorage.Cli.Commands
@@ -11,9 +12,11 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public string Usage() => CommandName();
 
-        public string Action(object[] args)
+        public string Action(List<string> args)
         {
-            return Storage.GetInstance().GetItems().Aggregate("", (current, item) => current + ($"Added at: {item.AddedAt}\nAdded by: {item.AddedBy}\nDescription: {item.Description}\n" + $"Group: {item.InventoryGroup}\nID: {item.InventoryId}\nSerial number: {item.SerialNumber}\n\n"));
+            return Storage.GetInstance()
+                          .GetItems()
+                          .Aggregate("", (string current, Item item) => current + item);
         }
     }
 }

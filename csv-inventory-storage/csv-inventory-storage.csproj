@@ -62,6 +62,10 @@
     <Compile Include="Inventory\Storage.cs" />
     <Compile Include="Cli\Commands\ICommand.cs" />
     <Compile Include="Inventory\Exceptions\InventoryStorageException.cs" />
+    <Compile Include="Cli\Interface.cs" />
+    <Compile Include="Cli\Logger.cs" />
+    <Compile Include="Cli\Commands\FindItem.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -73,6 +77,7 @@
     <Folder Include="Serialization\" />
     <Folder Include="Inventory\" />
     <Folder Include="Inventory\Exceptions\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

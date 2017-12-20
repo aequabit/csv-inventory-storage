@@ -1,6 +1,7 @@
 ﻿using System;
 using CSVInventoryStorage.Cli;
 using CSVInventoryStorage.Cli.Commands;
+using CSVInventoryStorage.Extensions;
 
 namespace CSVInventoryStorage
 {
@@ -12,13 +13,14 @@ namespace CSVInventoryStorage
 
             Processor.RegisterCommand(new AddItem());
             Processor.RegisterCommand(new RemoveItem());
+            Processor.RegisterCommand(new FindItem());
             Processor.RegisterCommand(new EditItem());
             Processor.RegisterCommand(new ListItems());
             Processor.RegisterCommand(new LoadStorage());
             Processor.RegisterCommand(new SaveStorage());
 
             while (true) {
-                Console.Write("storage> ");
+                Interface.WriteColor("{darkGray}storage{reset}> ");
 
                 var input = Console.ReadLine()?.Trim();
 
@@ -30,11 +32,11 @@ namespace CSVInventoryStorage
                 }
                 catch (Exception ex)
                 {
-                    Console.Write("{0}\n\n", ex.Message);
+                    Interface.WriteColor("{red}{0}\n\n", ex.Message);
                     continue;
                 }
 
-                Console.Write("{0}\n\n", processed);
+				Interface.WriteColor("{0}\n\n", processed);
             }
         }
     }

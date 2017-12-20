@@ -1,4 +1,6 @@
-﻿namespace CSVInventoryStorage.Cli.Commands
+﻿using System.Collections.Generic;
+
+namespace CSVInventoryStorage.Cli.Commands
 {
     class EditItem : ICommand
     {
@@ -6,12 +8,11 @@
 
         public int ArgCount() => 1;
 
-        public string Usage() => CommandName() + " <...>";
+        public string Usage() => $"{CommandName()} <...>";
 
-        public string Action(object[] args)
+        public string Action(List<string> args)
         {
-            // TODO: show all // show 1 // show 5 // ...
-            return "edit item placeholder";
+            return "";
         }
     }
 }

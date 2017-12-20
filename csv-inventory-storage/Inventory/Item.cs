@@ -77,5 +77,13 @@ namespace CSVInventoryStorage.Inventory
         {
             return CsvSerializer.Serialize(this);
         }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:CSVInventoryStorage.Inventory.Item"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:CSVInventoryStorage.Inventory.Item"/>.</returns>
+        public override string ToString() {
+            return $"AddedAt: {{darkGray}}{this.AddedAt}{{reset}}\nAddedBy: {{darkGray}}{this.AddedBy}{{reset}}\nDescription: {{darkGray}}{this.Description}{{reset}}\n" + $"InventoryGroup: {{darkGray}}{this.InventoryGroup}{{reset}}\nInventoryId: {{darkGray}}{this.InventoryId}{{reset}}\nSerialNumber: {{darkGray}}{this.SerialNumber}{{reset}}\n\n";
+        }
     }
 }

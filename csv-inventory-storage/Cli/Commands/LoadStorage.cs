@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 ﻿using System.IO;
 using System.Linq;
 using CSVInventoryStorage.Inventory;
@@ -13,16 +12,15 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 1;
 
-        public string Usage() => CommandName() + " <file>";
+        public string Usage() => $"{CommandName()} <file>";
 
-        public string Action(object[] args)
+        public string Action(List<string> args)
         {
-            var path = (string)args[0];
+            var path = args[0];
             if (!File.Exists(path))
-                throw new Exception("File does not exist");
+                throw new FileNotFoundException("File does not exist");
 
-            var csv = File.ReadAllText(path);
-            var items = csv.Split('\n').ToList();
+            var items = File.ReadLines(path).ToList();
 
             if (items.Count() > 0 && items.ElementAt(0) == CsvSerializer.Headers(typeof(Item)))
               items.RemoveAt(0);
@@ -33,7 +31,7 @@ namespace CSVInventoryStorage.Cli.Commands
 
             Storage.GetInstance().SetItems(final);
 
-            return "Loaded storage from " + path;
+            return $"Loaded storage from `{path}`";
         }
     }
 }

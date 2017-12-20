@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 ﻿using System.IO;
 using CSVInventoryStorage.Inventory;
 using CSVInventoryStorage.Serialization;
@@ -11,19 +11,25 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 1;
 
-        public string Usage() => CommandName() + " <file>";
+        public string Usage() => $"{CommandName()} <file>";
 
-        public string Action(object[] args)
+        public string Action(List<string> args)
         {
+			var path = args[0];
+
+            if (File.Exists(path)) {
+                var r = Interface.YesNo($"`{path}` already exists, you want to overwrite it?");
+                if (!r) return "Aborted due to output file already existing";
+            }
+
             var final = CsvSerializer.Headers(typeof(Item));
             foreach (var item in Storage.GetInstance().GetItems()) {
               final += '\n' + item.ToCsv();
             }
 
-            var path = (string)args[0];
             File.WriteAllText(path, final);
 
-            return "Saved storage to " + path;
+            return $"Saved storage to `{path}`";
         }
     }
 }
