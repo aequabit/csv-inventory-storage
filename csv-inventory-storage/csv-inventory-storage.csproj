@@ -63,9 +63,9 @@
     <Compile Include="Cli\Commands\ICommand.cs" />
     <Compile Include="Inventory\Exceptions\InventoryStorageException.cs" />
     <Compile Include="Cli\Interface.cs" />
-    <Compile Include="Cli\Logger.cs" />
     <Compile Include="Cli\Commands\FindItem.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Reflection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

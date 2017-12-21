@@ -12,7 +12,7 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 1;
 
-        public string Usage() => $"{CommandName()} <file>";
+        public string Usage() => $"{CommandName()} <file> - Loads a storage from a CSV file";
 
         public string Action(List<string> args)
         {

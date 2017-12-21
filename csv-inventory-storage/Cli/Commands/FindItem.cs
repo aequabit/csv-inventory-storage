@@ -8,8 +8,8 @@ namespace CSVInventoryStorage.Cli.Commands
 		public string CommandName() => "findItem";
 
 		public int ArgCount() => 2;
-
-		public string Usage() => $"{CommandName()} <property> <value>";
+         
+		public string Usage() => $"{CommandName()} <property> <value> - Finds an item by a property and it's value";
 
 		public string Action(List<string> args)
 		{

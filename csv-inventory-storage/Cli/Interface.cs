@@ -6,28 +6,8 @@ using CSVInventoryStorage.Extensions;
 
 namespace CSVInventoryStorage.Cli
 {
-    public class Interface
+    public static class Interface
     {
-        public static Dictionary<string, ConsoleColor> _colors = new Dictionary<string, ConsoleColor>()
-        {
-            { "black", ConsoleColor.Black },
-            { "blue", ConsoleColor.Blue },
-            { "cyan", ConsoleColor.Cyan },
-            { "darkblue", ConsoleColor.DarkBlue },
-            { "darkcyan", ConsoleColor.DarkCyan },
-            { "darkgray", ConsoleColor.DarkGray },
-            { "darkgreen", ConsoleColor.DarkGreen },
-            { "darkmagenta", ConsoleColor.DarkMagenta },
-            { "darkred", ConsoleColor.DarkRed },
-            { "darkyellow", ConsoleColor.DarkYellow },
-            { "gray", ConsoleColor.Gray },
-            { "green", ConsoleColor.Green },
-            { "magenta", ConsoleColor.Magenta },
-            { "red", ConsoleColor.Red },
-            { "white", ConsoleColor.White },
-            { "yellow", ConsoleColor.Yellow }
-        };
-
         /// <summary>
         /// Console.Write proxy with color tags.
         /// </summary>
@@ -56,8 +36,9 @@ namespace CSVInventoryStorage.Cli
                 if (i < colors.Count)
                 {
                     var color = colors[i].ToLower();
-                    if (_colors.ContainsKey(color))
-                        Console.ForegroundColor = _colors[color];
+                    var colorMap = Reflection.EnumToDictionary<ConsoleColor>();
+                    if (colorMap.ContainsKey(color))
+                        Console.ForegroundColor = (ConsoleColor)colorMap[color];
                     else if (color == "reset")
                         Console.ResetColor();
                 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using CSVInventoryStorage.Cli;
 using CSVInventoryStorage.Cli.Commands;
-using CSVInventoryStorage.Extensions;
 
 namespace CSVInventoryStorage
 {

@@ -10,7 +10,7 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 4;
 
-        public string Usage() => $"{CommandName()} <description> <group> <inventoryId> <serialNumber>";
+        public string Usage() => $"{CommandName()} <description> <group> <inventoryId> <serialNumber> - Adds an item to the storage";
 
         public string Action(List<string> args)
         {

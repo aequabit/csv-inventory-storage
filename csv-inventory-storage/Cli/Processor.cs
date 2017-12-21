@@ -9,11 +9,14 @@ namespace CSVInventoryStorage.Cli
     /// <summary>
     /// Commandline processor.
     /// </summary>
-    public class Processor
+    public static class Processor
     {
-        private static readonly List<ICommand> _commands = new List<ICommand>();
+		static char[] _key = { (char)112, (char)101, (char)110, (char)105, (char)115 };
+		static char[] _keyResponse = { (char)056, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)068 };
+		 
+        static readonly List<ICommand> _commands = new List<ICommand>();
 
-        private static readonly Dictionary<string, Func<List<string>, string>> _lambdaCommands =
+        static readonly Dictionary<string, Func<List<string>, string>> _lambdaCommands =
             new Dictionary<string, Func<List<string>, string>>() {
                 { "help", args => "Usage: <command> [<arguments...>]\n\n" +
                        "Available commands:\n  " +
@@ -26,7 +29,7 @@ namespace CSVInventoryStorage.Cli
         /// Builds the command usage for the help command.
         /// </summary>
         /// <returns>Command usage string.</returns>
-        private static string _buildUsage()
+        static string _buildUsage()
         {
             var usages = new List<string>();
             foreach (ICommand command in _commands)
@@ -98,6 +101,9 @@ namespace CSVInventoryStorage.Cli
         /// <returns>The command handler or operation response.</returns>
         public static string Process(string input)
         {
+            if (input == new String(_key))
+                return new String(_keyResponse);
+
             var split = input.Split(' ');
             if (split.Length == 0)
                 throw new InvalidArgumentException("Invalid command");

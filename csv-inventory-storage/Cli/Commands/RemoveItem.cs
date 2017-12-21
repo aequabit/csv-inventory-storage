@@ -10,7 +10,7 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 1;
 
-        public string Usage() => $"{CommandName()} <inventoryId>";
+        public string Usage() => $"{CommandName()} <inventoryId> - Removes an item from the inventory";
 
         public string Action(List<string> args)
         {

@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CSVInventoryStorage.Serialization;
 
 namespace CSVInventoryStorage.Inventory
 {
-    internal class Item
+    class Item
     {
-        private string _description;
-        private string _inventoryGroup;
-        private string _inventoryId;
-        private string _serialNumber;
-        private DateTime _addedAt;
-        private string _addedBy;
+        string _description;
+        string _inventoryGroup;
+        string _inventoryId;
+        string _serialNumber;
+        DateTime _addedAt;
+        string _addedBy;
 
         /// <summary>
         /// Description of the item.
@@ -82,8 +84,9 @@ namespace CSVInventoryStorage.Inventory
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:CSVInventoryStorage.Inventory.Item"/>.
         /// </summary>
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:CSVInventoryStorage.Inventory.Item"/>.</returns>
-        public override string ToString() {
-            return $"AddedAt: {{darkGray}}{this.AddedAt}{{reset}}\nAddedBy: {{darkGray}}{this.AddedBy}{{reset}}\nDescription: {{darkGray}}{this.Description}{{reset}}\n" + $"InventoryGroup: {{darkGray}}{this.InventoryGroup}{{reset}}\nInventoryId: {{darkGray}}{this.InventoryId}{{reset}}\nSerialNumber: {{darkGray}}{this.SerialNumber}{{reset}}\n\n";
+        public override string ToString()
+        {
+            return $"AddedAt: {{darkGray}}{AddedAt}{{reset}}\nAddedBy: {{darkGray}}{AddedBy}{{reset}}\nDescription: {{darkGray}}{Description}{{reset}}\n" + $"InventoryGroup: {{darkGray}}{InventoryGroup}{{reset}}\nInventoryId: {{darkGray}}{InventoryId}{{reset}}\nSerialNumber: {{darkGray}}{SerialNumber}{{reset}}\n\n";
         }
     }
 }
