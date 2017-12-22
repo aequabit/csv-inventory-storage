@@ -11,17 +11,17 @@ namespace CSVInventoryStorage.Cli
     /// </summary>
     public static class Processor
     {
-        static readonly char[] _key = { (char)112, (char)101, (char)110, (char)105, (char)115 };
-        static readonly char[] _keyResponse = { (char)056, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)068 };
+        static readonly char[] Key = { (char)112, (char)101, (char)110, (char)105, (char)115 };
+        static readonly char[] KeyResponse = { (char)056, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)068 };
 
-        static readonly List<ICommand> _commands = new List<ICommand>();
+        static readonly List<ICommand> Commands = new List<ICommand>();
 
-        static readonly Dictionary<string, Func<List<string>, string>> _lambdaCommands =
+        static readonly Dictionary<string, Func<List<string>, string>> LambdaCommands =
             new Dictionary<string, Func<List<string>, string>> {
                 { "help", args => "Usage: <command> [<arguments...>]\n\n" +
                        "Available commands:\n  " +
                        "exit - Exits the application\n  " +
-                       buildHelp() },
+                       BuildHelp() },
                 { "exit", args => { Environment.Exit(0); return "Exiting..."; } }
         };
 
@@ -29,12 +29,10 @@ namespace CSVInventoryStorage.Cli
         /// Builds the command usage for the help command.
         /// </summary>
         /// <returns>Command help string.</returns>
-        static string buildHelp()
+        static string BuildHelp()
         {
-            var usages = new List<string>();
-            foreach (ICommand command in _commands)
-                usages.Add(command.Usage() + " - " + command.Description());
-            return String.Join("\n  ", usages);
+            var usages = Commands.Select(command => command.Usage() + " - " + command.Description()).ToList();
+	        return string.Join("\n  ", usages);
         }
 
         /// <summary>
@@ -43,13 +41,13 @@ namespace CSVInventoryStorage.Cli
         /// <param name="command">Instance of the command to register.</param>
         public static void RegisterCommand(ICommand command)
         {
-            if (_commands.Any(x => x.CommandName() == command.CommandName()))
+            if (Commands.Any(x => x.CommandName() == command.CommandName()))
                 throw new CommandRegisterException("Command already registered");
 
-            if (_lambdaCommands.ContainsKey(command.CommandName()))
+            if (LambdaCommands.ContainsKey(command.CommandName()))
                 throw new CommandRegisterException("Command already registered");
 
-            _commands.Add(command);
+            Commands.Add(command);
         }
 
         /// <summary>
@@ -59,13 +57,13 @@ namespace CSVInventoryStorage.Cli
         /// <param name="handler">Command handler delegate to register.</param>
         public static void RegisterCommand(string commandName, Func<List<string>, string> handler)
         {
-            if (_commands.Any(x => x.CommandName() == commandName))
+            if (Commands.Any(x => x.CommandName() == commandName))
                 throw new CommandRegisterException("Command already registered");
 
-            if (_lambdaCommands.ContainsKey(commandName))
+            if (LambdaCommands.ContainsKey(commandName))
                 throw new CommandRegisterException("Command already registered");
 
-            _lambdaCommands.Add(commandName, handler);
+            LambdaCommands.Add(commandName, handler);
         }
 
         /// <summary>
@@ -74,12 +72,12 @@ namespace CSVInventoryStorage.Cli
         /// <param name="command">Command to unregister.</param>
         public static void UnregisterCommand(ICommand command)
         {
-            var matches = _commands.Where(x => x.CommandName() == command.CommandName());
+            var matches = Commands.Where(x => x.CommandName() == command.CommandName());
 
             if (!matches.Any())
                 throw new CommandRegisterException("Command not registered");
 
-            _commands.Remove(matches.ElementAt(0));
+            Commands.Remove(matches.ElementAt(0));
         }
 
         /// <summary>
@@ -88,10 +86,10 @@ namespace CSVInventoryStorage.Cli
         /// <param name="commandName">Name of the command to unregister.</param>
         public static void UnregisterCommand(string commandName)
         {
-            if (!_lambdaCommands.ContainsKey(commandName))
+            if (!LambdaCommands.ContainsKey(commandName))
                 throw new CommandRegisterException("Command not registered");
 
-            _lambdaCommands.Remove(commandName);
+            LambdaCommands.Remove(commandName);
         }
 
         /// <summary>
@@ -101,10 +99,12 @@ namespace CSVInventoryStorage.Cli
         /// <returns>The command handler or operation response.</returns>
         public static string Process(string input)
         {
-            if (input == new String(_key))
-                return new String(_keyResponse);
+            if (input == new string(Key))
+			{
+				return new string(KeyResponse);
+			}
 
-            var split = input.Split(' ');
+			var split = input.Split(' ');
             if (split.Length == 0)
                 throw new InvalidArgumentException("Invalid command");
 
@@ -112,7 +112,7 @@ namespace CSVInventoryStorage.Cli
 
             var args = split.Skip(1).ToList();
 
-            ICommand cmd = _commands.Find(x => x.CommandName() == command);
+            ICommand cmd = Commands.Find(x => x.CommandName() == command);
             if (cmd != null)
             {
                 if (cmd.ArgCount() != -1 && args.Count != cmd.ArgCount())
@@ -121,8 +121,8 @@ namespace CSVInventoryStorage.Cli
                 return cmd.Action(args);
             }
 
-            if (_lambdaCommands.ContainsKey(command))
-                return _lambdaCommands[command](args);
+            if (LambdaCommands.ContainsKey(command))
+                return LambdaCommands[command](args);
 
             throw new ProcessingException("Unknown operation or invalid arguments");
         }

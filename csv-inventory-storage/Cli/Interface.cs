@@ -24,12 +24,10 @@ namespace CSVInventoryStorage.Cli
             for (var i = 0; i < matches.Count; i++)
                 colors.Add(matches[i].Groups[1].Value);
 
-            var values = new List<string>();
-            var split = Regex.Split(value, "{.*?}").ToList();
-            foreach (var s in split)
-                if (s != String.Empty) values.Add(s);
+	        var split = Regex.Split(value, "{.*?}").ToList();
+	        var values = split.Where(s => s != string.Empty).ToList();
 
-            for (var i = 0; i < values.Count(); i++)
+	        for (var i = 0; i < values.Count; i++)
             {
                 var s = values[i];
 
@@ -64,7 +62,7 @@ namespace CSVInventoryStorage.Cli
         /// <param name="prompt">Question to show to the user.</param>
         public static bool YesNo(string prompt)
         {
-            string input = "";
+            var input = "";
             do
             {
                 Console.Write("{0} [y/n] ", prompt);

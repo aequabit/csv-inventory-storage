@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace CSVInventoryStorage.Extensions
 {
@@ -14,9 +12,9 @@ namespace CSVInventoryStorage.Extensions
         /// <param name="args">Optional formatting arguments.</param>
         public static string FormatNumeric(this string str, params object[] args)
         {
-            var final = Regex.Replace(str, "{([^0-9{}]*)}", (Match match) => "{" + match.Value + "}");
+            var final = Regex.Replace(str, "{([^0-9{}]*)}", match => "{" + match.Value + "}");
             final = args.Length == 0 ? final : string.Format(final, args);
-            return Regex.Replace(final, "{{([^0-9{}]*)}}", (Match match) => match.Value);
+            return Regex.Replace(final, "{{([^0-9{}]*)}}", match => match.Value);
         }
     }
 }

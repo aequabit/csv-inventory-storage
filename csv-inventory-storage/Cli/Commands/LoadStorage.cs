@@ -6,7 +6,7 @@ using CSVInventoryStorage.Serialization;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-    class LoadStorage : ICommand
+	internal class LoadStorage : ICommand
     {
         public string CommandName() => "loadStorage";
 
@@ -19,19 +19,18 @@ namespace CSVInventoryStorage.Cli.Commands
         public string Action(List<string> args)
         {
             var path = args[0];
-            if (!File.Exists(path))
+	        if (!path.EndsWith(".csv"))
+		        path = path + ".csv";
+
+			if (!File.Exists(path))
                 throw new FileNotFoundException("File does not exist");
 
-            var items = File.ReadLines(path).ToList();
-
+			var items = File.ReadLines(path).ToList();
             if (items.Any() && items.ElementAt(0) == CsvSerializer.Headers(typeof(Item)))
                 items.RemoveAt(0);
 
-            var final = new List<Item>();
-            foreach (var item in items)
-                final.Add(CsvSerializer.Deserialize<Item>(item));
-
-            Storage.GetInstance().SetItems(final);
+            var final = items.Select(item => CsvSerializer.Deserialize<Item>(item)).ToList();
+	        Storage.GetInstance().SetItems(final);
 
             return $"Loaded storage from `{path}`";
         }

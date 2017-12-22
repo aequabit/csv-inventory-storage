@@ -4,7 +4,7 @@ using CSVInventoryStorage.Inventory;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-    class RemoveItem : ICommand
+	internal class RemoveItem : ICommand
     {
         public string CommandName() => "removeItem";
 
