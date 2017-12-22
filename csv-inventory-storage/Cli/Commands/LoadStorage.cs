@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using CSVInventoryStorage.Inventory;
 using CSVInventoryStorage.Serialization;
@@ -12,7 +12,9 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 1;
 
-        public string Usage() => $"{CommandName()} <file> - Loads a storage from a CSV file";
+		public string Usage() => $"{CommandName()} <file>";
+		
+        public string Description() => "Loads a storage from a CSV file";
 
         public string Action(List<string> args)
         {
@@ -22,12 +24,12 @@ namespace CSVInventoryStorage.Cli.Commands
 
             var items = File.ReadLines(path).ToList();
 
-            if (items.Count() > 0 && items.ElementAt(0) == CsvSerializer.Headers(typeof(Item)))
-              items.RemoveAt(0);
+            if (items.Any() && items.ElementAt(0) == CsvSerializer.Headers(typeof(Item)))
+                items.RemoveAt(0);
 
             var final = new List<Item>();
             foreach (var item in items)
-              final.Add(CsvSerializer.Deserialize<Item>(item));
+                final.Add(CsvSerializer.Deserialize<Item>(item));
 
             Storage.GetInstance().SetItems(final);
 

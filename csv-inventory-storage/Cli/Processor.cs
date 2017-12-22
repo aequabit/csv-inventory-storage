@@ -11,30 +11,30 @@ namespace CSVInventoryStorage.Cli
     /// </summary>
     public static class Processor
     {
-		static char[] _key = { (char)112, (char)101, (char)110, (char)105, (char)115 };
-		static char[] _keyResponse = { (char)056, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)068 };
-		 
+        static readonly char[] _key = { (char)112, (char)101, (char)110, (char)105, (char)115 };
+        static readonly char[] _keyResponse = { (char)056, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)068 };
+
         static readonly List<ICommand> _commands = new List<ICommand>();
 
         static readonly Dictionary<string, Func<List<string>, string>> _lambdaCommands =
-            new Dictionary<string, Func<List<string>, string>>() {
+            new Dictionary<string, Func<List<string>, string>> {
                 { "help", args => "Usage: <command> [<arguments...>]\n\n" +
                        "Available commands:\n  " +
                        "exit - Exits the application\n  " +
-                       _buildUsage() },
+                       buildHelp() },
                 { "exit", args => { Environment.Exit(0); return "Exiting..."; } }
         };
 
         /// <summary>
         /// Builds the command usage for the help command.
         /// </summary>
-        /// <returns>Command usage string.</returns>
-        static string _buildUsage()
+        /// <returns>Command help string.</returns>
+        static string buildHelp()
         {
             var usages = new List<string>();
             foreach (ICommand command in _commands)
-                usages.Add(command.Usage());
-            return String.Join("\n  ", usages.Select(x => x.ToString()));
+                usages.Add(command.Usage() + " - " + command.Description());
+            return String.Join("\n  ", usages);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace CSVInventoryStorage.Cli
         /// <param name="command">Instance of the command to register.</param>
         public static void RegisterCommand(ICommand command)
         {
-            if (_commands.Where(x => x.CommandName() == command.CommandName()).Count() > 0)
+            if (_commands.Any(x => x.CommandName() == command.CommandName()))
                 throw new CommandRegisterException("Command already registered");
 
             if (_lambdaCommands.ContainsKey(command.CommandName()))
@@ -59,7 +59,7 @@ namespace CSVInventoryStorage.Cli
         /// <param name="handler">Command handler delegate to register.</param>
         public static void RegisterCommand(string commandName, Func<List<string>, string> handler)
         {
-            if (_commands.Where(x => x.CommandName() == commandName).Count() > 0)
+            if (_commands.Any(x => x.CommandName() == commandName))
                 throw new CommandRegisterException("Command already registered");
 
             if (_lambdaCommands.ContainsKey(commandName))
@@ -76,7 +76,7 @@ namespace CSVInventoryStorage.Cli
         {
             var matches = _commands.Where(x => x.CommandName() == command.CommandName());
 
-            if (matches.Count() == 0)
+            if (!matches.Any())
                 throw new CommandRegisterException("Command not registered");
 
             _commands.Remove(matches.ElementAt(0));

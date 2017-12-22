@@ -10,7 +10,9 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 0;
 
-        public string Usage() => $"{CommandName()} - Lists all items currently in the inventory";
+		public string Usage() => CommandName();
+		
+        public string Description() => "Lists all items currently in the inventory";
 
         public string Action(List<string> args)
         {

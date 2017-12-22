@@ -6,7 +6,9 @@ namespace CSVInventoryStorage
 {
     class Program
     {
-        static void Main(string[] args)
+        static bool run = true;
+
+        static void Main()
         {
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
 
@@ -18,7 +20,7 @@ namespace CSVInventoryStorage
             Processor.RegisterCommand(new LoadStorage());
             Processor.RegisterCommand(new SaveStorage());
 
-            while (true) {
+            while (run) {
                 Interface.WriteColor("{darkGray}storage{reset}> ");
 
                 var input = Console.ReadLine()?.Trim();

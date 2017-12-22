@@ -6,7 +6,8 @@ namespace CSVInventoryStorage.Cli.Commands
     {
         string CommandName();
         int ArgCount();
-        string Usage();
+		string Usage();
+		string Description();
         string Action(List<string> args);
     }
 }

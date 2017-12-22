@@ -8,12 +8,12 @@ namespace CSVInventoryStorage.Serialization
 {
     class CsvSerializer
     {
-        private static Dictionary<Type, Func<object, string>> _serializers = new Dictionary<Type, Func<object, string>>()
+        static readonly Dictionary<Type, Func<object, string>> _serializers = new Dictionary<Type, Func<object, string>>
         {
-            { typeof(DateTime), (object val) => ((DateTime)val).ToString("dd.MM.yyyy")},
+            { typeof(DateTime), (object val) => ((DateTime)val).ToString("dd.MM.yyyy")}
         };
 
-        private static Dictionary<Type, Func<string, object>> _deserializers = new Dictionary<Type, Func<string, object>>()
+        static readonly Dictionary<Type, Func<string, object>> _deserializers = new Dictionary<Type, Func<string, object>>
         {
             { typeof(DateTime), (string val) => {
                   DateTime parsed;
@@ -24,12 +24,24 @@ namespace CSVInventoryStorage.Serialization
               } }
         };
 
+        // TODO: cleanup
+        static string TrimQuotes(string str)
+        {
+            if (str.StartsWith("\"", StringComparison.OrdinalIgnoreCase))
+                str = str.Substring(0, str.IndexOf("\"", StringComparison.OrdinalIgnoreCase));
+
+            if (str.EndsWith("\"", StringComparison.OrdinalIgnoreCase))
+                str = str.Substring(0, str.LastIndexOf("\"", StringComparison.OrdinalIgnoreCase));
+
+            return str;
+        }
+
         /// <summary>
         /// Escapes a value for use in CSV.
         /// </summary>
         /// <param name="val">Value to escape.</param>
 
-        private static string Escape(string val)
+        static string Escape(string val)
         {
             if (val.Contains("\""))
                 val = val.Replace("\"", "\"\"");
@@ -51,7 +63,7 @@ namespace CSVInventoryStorage.Serialization
 
             var header = props.Aggregate("", (current, prop) => current + (prop.Name + ";"));
 
-            if (header.EndsWith(";"))
+            if (header.EndsWith(";", StringComparison.OrdinalIgnoreCase))
                 header = header.Substring(0, header.LastIndexOf(";", StringComparison.Ordinal));
 
             return header;
@@ -68,7 +80,7 @@ namespace CSVInventoryStorage.Serialization
 
             var header = props.Aggregate("", (current, prop) => current + (prop.Name + ";"));
 
-            if (header.EndsWith(";"))
+            if (header.EndsWith(";", StringComparison.OrdinalIgnoreCase))
                 header = header.Substring(0, header.LastIndexOf(";", StringComparison.Ordinal));
 
             return header;
@@ -91,7 +103,7 @@ namespace CSVInventoryStorage.Serialization
                 var type = prop.PropertyType;
                 var val = prop.GetValue(obj, null);
 
-                values.Add(_serializers.ContainsKey(type) ? _serializers[type]((object)val) : Escape(val.ToString()));
+                values.Add(_serializers.ContainsKey(type) ? _serializers[type](val) : Escape(val.ToString()));
 
                 if (i < props.Count() - 1)
                     values.Add(";");
@@ -132,18 +144,6 @@ namespace CSVInventoryStorage.Serialization
             }
 
             return obj;
-        }
-
-        // TODO: cleanup
-        private static string _trimQuotes(string str)
-        {
-            if (str.StartsWith("\""))
-                str = str.Substring(0, str.IndexOf("\"", StringComparison.Ordinal));
-
-            if (str.EndsWith("\""))
-                str = str.Substring(0, str.LastIndexOf("\"", StringComparison.Ordinal));
-
-            return str;
         }
     }
 }

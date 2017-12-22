@@ -6,8 +6,8 @@ namespace CSVInventoryStorage.Inventory
 {
     class Storage
     {
-        private static Storage _instance;
-        private List<Item> _items = new List<Item>();
+        static Storage _instance;
+        List<Item> _items = new List<Item>();
 
         /// <summary>
         /// Gets the current instance.
@@ -24,7 +24,7 @@ namespace CSVInventoryStorage.Inventory
         /// <param name="item">Item to add.</param>
         public void AddItem(Item item)
         {
-            if (_items.Count(x => x.InventoryId == item.InventoryId) > 0)
+            if (_items.Any(x => x.InventoryId == item.InventoryId))
                 throw new InventoryStorageException("Inventory ID already in storage");
 
             _items.Add(item);
@@ -36,7 +36,7 @@ namespace CSVInventoryStorage.Inventory
         /// <param name="item">Item to remove.</param>
         public void RemoveItem(Item item)
         {
-            if (_items.Count(x => x.InventoryId == item.InventoryId) > 0)
+            if (_items.Any(x => x.InventoryId == item.InventoryId))
                 throw new InventoryStorageException("Inventory ID not in storage");
 
             _items.Remove(item);
@@ -83,13 +83,13 @@ namespace CSVInventoryStorage.Inventory
             var props = typeof(Item).GetProperties();
 
             var matches = props.Where(prop => prop.Name == propertyName);
-            if (matches.Count() == 0)
+            if (!matches.Any())
                 return null;
 
             var property = matches.First();
 
             var items = GetItems().Where(item => property.GetValue(item, null).ToString() == value);
-            if (items.Count() == 0)
+            if (!items.Any())
                 return null;
 
             return items.First();
@@ -108,17 +108,17 @@ namespace CSVInventoryStorage.Inventory
             return !inventoryItems.Any() ? null : inventoryItems.First();
         }
 
-		/// <summary>
-		/// Gets an item by it's serial number.
-		/// </summary>
-		/// <returns>Serial number of the item.</returns>
-		/// <param name="serialNumber">Serial number.</param>
-		public Item GetItemBySerialNumber(string serialNumber)
-		{
-			var matches = _items.Where(x => x.SerialNumber == serialNumber);
+        /// <summary>
+        /// Gets an item by it's serial number.
+        /// </summary>
+        /// <returns>Serial number of the item.</returns>
+        /// <param name="serialNumber">Serial number.</param>
+        public Item GetItemBySerialNumber(string serialNumber)
+        {
+            var matches = _items.Where(x => x.SerialNumber == serialNumber);
 
-			var inventoryItems = matches as Item[] ?? matches.ToArray();
-			return !inventoryItems.Any() ? null : inventoryItems.First();
-		}
+            var inventoryItems = matches as Item[] ?? matches.ToArray();
+            return !inventoryItems.Any() ? null : inventoryItems.First();
+        }
     }
 }

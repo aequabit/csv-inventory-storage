@@ -8,7 +8,9 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public int ArgCount() => 1;
 
-        public string Usage() => $"{CommandName()} <...> - Edits an item";
+		public string Usage() => $"{CommandName()} <...>";
+		
+        public string Description() => "Edits an item";
 
         public string Action(List<string> args)
         {
