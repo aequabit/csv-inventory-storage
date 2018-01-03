@@ -52,10 +52,7 @@ namespace CSVInventoryStorage.Cli
         /// </summary>
         /// <param name="value">Value to write.</param>
         /// <param name="args">Optional formatting arguments.</param>
-        public static void WriteLineColor(string value, params object[] args)
-        {
-            WriteColor(value + '\n', args);
-        }
+        public static void WriteLineColor(string value, params object[] args) => WriteColor(value + '\n', args);
 
         /// <summary>
         /// Prints a yes/no question and gets the answer as a boolean.

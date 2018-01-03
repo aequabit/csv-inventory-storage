@@ -21,7 +21,7 @@ namespace CSVInventoryStorage.Cli
                 { "help", args => "Usage: <command> [<arguments...>]\n\n" +
                        "Available commands:\n  " +
                        "exit - Exits the application\n  " +
-                       buildHelp() },
+                       BuildHelp() },
                 { "exit", args => { Environment.Exit(0); return "Exiting..."; } }
         };
 
@@ -29,7 +29,7 @@ namespace CSVInventoryStorage.Cli
         /// Builds the command usage for the help command.
         /// </summary>
         /// <returns>Command help string.</returns>
-        static string buildHelp()
+        static string BuildHelp()
         {
             var usages = new List<string>();
             foreach (ICommand command in _commands)

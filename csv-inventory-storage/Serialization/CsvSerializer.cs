@@ -72,10 +72,9 @@ namespace CSVInventoryStorage.Serialization
         /// <summary>
         /// Gets the CSV headers from a type.
         /// </summary>
-        /// <param name="type">Type to get the fields from.</param>
-        public static string Headers(Type type)
+        public static string Headers<T>()
         {
-            var props = type.GetProperties().Where(
+            var props = typeof(T).GetProperties().Where(
                 p => p.GetCustomAttributes(typeof(CsvSerializableAttribute), true).Length != 0);
 
             var header = props.Aggregate("", (current, prop) => current + (prop.Name + ";"));

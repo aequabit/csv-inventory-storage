@@ -20,7 +20,8 @@ namespace CSVInventoryStorage
             Processor.RegisterCommand(new LoadStorage());
             Processor.RegisterCommand(new SaveStorage());
 
-            while (run) {
+            while (run)
+            {
                 Interface.WriteColor("{darkGray}storage{reset}> ");
 
                 var input = Console.ReadLine()?.Trim();
@@ -37,7 +38,7 @@ namespace CSVInventoryStorage
                     continue;
                 }
 
-				Interface.WriteColor("{0}\n\n", processed);
+                Interface.WriteColor("{0}\n\n", processed);
             }
         }
     }
