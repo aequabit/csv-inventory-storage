@@ -14,8 +14,8 @@ namespace CSVInventoryStorage
             var final = new Dictionary<string, int>(caseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase);
             var values = Enum.GetValues(type);
             foreach (var value in values)
-                final.Add(Enum.GetName(type, value), (int)value);
-            return final;
+		        final.Add(Enum.GetName(type, value) ?? throw new InvalidOperationException(), (int)value);
+	        return final;
         }
 
         public static List<string> GetProperties<T>()

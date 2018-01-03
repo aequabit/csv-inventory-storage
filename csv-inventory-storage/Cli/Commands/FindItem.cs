@@ -3,7 +3,7 @@ using CSVInventoryStorage.Inventory;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-	class FindItem : ICommand
+	internal class FindItem : ICommand
 	{
 		public string CommandName() => "findItem";
 

@@ -4,11 +4,11 @@ using CSVInventoryStorage.Cli.Commands;
 
 namespace CSVInventoryStorage
 {
-    class Program
+	internal class Program
     {
-        static bool run = true;
+	    private const bool Run = true;
 
-        static void Main()
+	    private static void Main()
         {
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
 
@@ -20,14 +20,12 @@ namespace CSVInventoryStorage
             Processor.RegisterCommand(new LoadStorage());
             Processor.RegisterCommand(new SaveStorage());
 
-            while (run)
-            {
+            while (Run) {
                 Interface.WriteColor("{darkGray}storage{reset}> ");
 
                 var input = Console.ReadLine()?.Trim();
 
                 string processed;
-
                 try
                 {
                     processed = Processor.Process(input);

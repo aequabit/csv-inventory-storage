@@ -7,71 +7,40 @@ namespace CSVInventoryStorage.Inventory
 {
     class Item
     {
-        string _description;
-        string _inventoryGroup;
-        string _inventoryId;
-        string _serialNumber;
-        DateTime _addedAt;
-        string _addedBy;
-
-        /// <summary>
+	    /// <summary>
         /// Description of the item.
         /// </summary>
         [CsvSerializable]
-        public string Description
-        {
-            get => _description;
-            set => _description = value;
-        }
+        public string Description { get; set; }
 
-        /// <summary>
+	    /// <summary>
         /// Inventory group of the item.
         /// </summary>
         [CsvSerializable]
-        public string InventoryGroup
-        {
-            get => _inventoryGroup;
-            set => _inventoryGroup = value;
-        }
+        public string InventoryGroup { get; set; }
 
-        /// <summary>
+	    /// <summary>
         /// Inventory ID of the item.
         /// </summary>
         [CsvSerializable]
-        public string InventoryId
-        {
-            get => _inventoryId;
-            set => _inventoryId = value;
-        }
+        public string InventoryId { get; set; }
 
-        /// <summary>
+	    /// <summary>
         /// Serial number of the item.
         /// </summary>
         [CsvSerializable]
-        public string SerialNumber
-        {
-            get => _serialNumber;
-            set => _serialNumber = value;
-        }
+        public string SerialNumber { get; set; }
 
-        /// <summary>
+	    /// <summary>
         /// Date the item was added at.
         /// </summary>
         [CsvSerializable]
-        public DateTime AddedAt
-        {
-            get => _addedAt;
-            set => _addedAt = value;
-        }
+        public DateTime AddedAt { get; set; }
 
-        [CsvSerializable]
-        public string AddedBy
-        {
-            get => _addedBy;
-            set => _addedBy = value;
-        }
+	    [CsvSerializable]
+        public string AddedBy { get; set; }
 
-        /// <summary>
+	    /// <summary>
         /// CSV serializes the inventory item.
         /// </summary>
         /// <returns>CSV serialized inventory item.</returns>
@@ -86,7 +55,8 @@ namespace CSVInventoryStorage.Inventory
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:CSVInventoryStorage.Inventory.Item"/>.</returns>
         public override string ToString()
         {
-            return $"AddedAt: {{darkGray}}{AddedAt}{{reset}}\nAddedBy: {{darkGray}}{AddedBy}{{reset}}\nDescription: {{darkGray}}{Description}{{reset}}\n" + $"InventoryGroup: {{darkGray}}{InventoryGroup}{{reset}}\nInventoryId: {{darkGray}}{InventoryId}{{reset}}\nSerialNumber: {{darkGray}}{SerialNumber}{{reset}}\n\n";
+            return $"AddedAt: {{darkGray}}{AddedAt}{{reset}}\nAddedBy: {{darkGray}}{AddedBy}{{reset}}\nDescription: {{darkGray}}{Description}{{reset}}\n" 
+				+ $"InventoryGroup: {{darkGray}}{InventoryGroup}{{reset}}\nInventoryId: {{darkGray}}{InventoryId}{{reset}}\nSerialNumber: {{darkGray}}{SerialNumber}{{reset}}\n\n";
         }
     }
 }

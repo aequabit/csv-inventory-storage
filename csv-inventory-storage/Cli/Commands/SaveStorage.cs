@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 ﻿using System.IO;
+using System.Linq;
 using CSVInventoryStorage.Inventory;
 using CSVInventoryStorage.Serialization;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-    class SaveStorage : ICommand
+	internal class SaveStorage : ICommand
     {
         public string CommandName() => "saveStorage";
 
@@ -25,11 +26,13 @@ namespace CSVInventoryStorage.Cli.Commands
             }
 
             var final = CsvSerializer.Headers(typeof(Item));
-            foreach (var item in Storage.GetInstance().GetItems()) {
-              final += '\n' + item.ToCsv();
-            }
+	        final = Storage.GetInstance().GetItems().Aggregate(final, (current, item) => current + ('\n' + item.ToCsv()));
 
-            File.WriteAllText(path, final);
+			if (!path.EndsWith(".csv"))
+				path = path + ".csv";
+			
+
+	        File.WriteAllText(path, final);
 
             return $"Saved storage to `{path}`";
         }

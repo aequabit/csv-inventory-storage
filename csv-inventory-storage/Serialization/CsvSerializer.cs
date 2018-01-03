@@ -2,20 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace CSVInventoryStorage.Serialization
 {
-    class CsvSerializer
+	internal class CsvSerializer
     {
-        static readonly Dictionary<Type, Func<object, string>> _serializers = new Dictionary<Type, Func<object, string>>
+        static readonly Dictionary<Type, Func<object, string>> Serializers = new Dictionary<Type, Func<object, string>>
         {
-            { typeof(DateTime), (object val) => ((DateTime)val).ToString("dd.MM.yyyy")}
+            { typeof(DateTime), val => ((DateTime)val).ToString("dd.MM.yyyy")}
         };
 
-        static readonly Dictionary<Type, Func<string, object>> _deserializers = new Dictionary<Type, Func<string, object>>
+        static readonly Dictionary<Type, Func<string, object>> Deserializers = new Dictionary<Type, Func<string, object>>
         {
-            { typeof(DateTime), (string val) => {
+            { typeof(DateTime), val => {
                   DateTime parsed;
                   var      success = DateTime.TryParse(val, out parsed);
                   if (!success) return null;
@@ -102,7 +101,7 @@ namespace CSVInventoryStorage.Serialization
                 var type = prop.PropertyType;
                 var val = prop.GetValue(obj, null);
 
-                values.Add(_serializers.ContainsKey(type) ? _serializers[type](val) : Escape(val.ToString()));
+                values.Add(Serializers.ContainsKey(type) ? Serializers[type](val) : Escape(val.ToString()));
 
                 if (i < props.Count() - 1)
                     values.Add(";");
@@ -133,11 +132,7 @@ namespace CSVInventoryStorage.Serialization
 
                 var val = values.ElementAt(i);
 
-                object final;
-                if (_deserializers.ContainsKey(type))
-                    final = _deserializers[type](val);
-                else
-                    final = val.Trim('"');
+	            var final = Deserializers.ContainsKey(type) ? Deserializers[type](val) : val.Trim('"');
 
                 prop.SetValue(obj, final, null);
             }

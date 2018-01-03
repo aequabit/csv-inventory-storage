@@ -4,7 +4,7 @@ using CSVInventoryStorage.Inventory;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-    class ListItems : ICommand
+	internal class ListItems : ICommand
     {
         public string CommandName() => "listItems";
 
@@ -16,9 +16,12 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public string Action(List<string> args)
         {
-            return Storage.GetInstance()
+	        if (Storage.GetInstance().GetItems().Count <= 0)
+		        return "{red}No Items found. Please add some items or load any storage.";
+
+			return Storage.GetInstance()
                           .GetItems()
-                          .Aggregate("", (string current, Item item) => current + item);
+                          .Aggregate("", (current, item) => current + item);
         }
     }
 }
