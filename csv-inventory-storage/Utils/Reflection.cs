@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CSVInventoryStorage
+namespace CSVInventoryStorage.Utils
 {
     public static class Reflection
     {

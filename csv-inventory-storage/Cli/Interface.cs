@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using CSVInventoryStorage.Extensions;
+using CSVInventoryStorage.Utils;
 
 namespace CSVInventoryStorage.Cli
 {
@@ -43,7 +44,9 @@ namespace CSVInventoryStorage.Cli
 
                 Console.Write(s);
             }
-        }
+
+			Console.ResetColor();
+		}
 
         /// <summary>
         /// Console.WriteLine proxy with color tags.
@@ -67,6 +70,17 @@ namespace CSVInventoryStorage.Cli
             } while (input != "y" && input != "n");
 
             return input == "y";
+        }
+
+        /// <summary>
+        /// Clears the current line.
+        /// </summary>
+        public static void ClearCurrentLine()
+        {
+			int currentLineCursor = Console.CursorTop;
+			Console.SetCursorPosition(0, Console.CursorTop);
+			Console.Write(new string(' ', Console.WindowWidth));
+			Console.SetCursorPosition(0, currentLineCursor);
         }
     }
 }

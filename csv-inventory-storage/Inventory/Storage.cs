@@ -1,12 +1,16 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using CSVInventoryStorage.Inventory.Exceptions;
 
 namespace CSVInventoryStorage.Inventory
 {
     class Storage
     {
-        static Storage _instance;
+        static string StorageDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+		static Storage _instance;
         List<Item> _items = new List<Item>();
 
         /// <summary>
@@ -28,6 +32,8 @@ namespace CSVInventoryStorage.Inventory
                 throw new InventoryStorageException("Inventory ID already in storage");
 
             _items.Add(item);
+
+
         }
 
         /// <summary>

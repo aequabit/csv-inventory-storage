@@ -4,12 +4,34 @@ using CSVInventoryStorage.Cli.Commands;
 
 namespace CSVInventoryStorage
 {
-	internal class Program
+    internal class Program
     {
-	    private const bool Run = true;
-
-	    private static void Main()
+        private static void Main()
         {
+            Inventory.Storage.GetInstance().AddItem(new Inventory.Item()
+            {
+                Description = "test item",
+                InventoryGroup = "group1",
+                InventoryId = "id1",
+                SerialNumber = "#123",
+                AddedAt = DateTime.Now,
+                AddedBy = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            });
+
+			Inventory.Storage.GetInstance().AddItem(new Inventory.Item()
+			{
+				Description = "test item",
+				InventoryGroup = "group2",
+				InventoryId = "id2",
+				SerialNumber = "#456",
+				AddedAt = DateTime.Now,
+				AddedBy = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+			});
+
+            var index = new UI.Forms.Index();
+            UI.Renderer.Render(index);
+
+            return;
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
 
             Processor.RegisterCommand(new AddItem());
@@ -20,7 +42,8 @@ namespace CSVInventoryStorage
             Processor.RegisterCommand(new LoadStorage());
             Processor.RegisterCommand(new SaveStorage());
 
-            while (Run) {
+            while (true)
+            {
                 Interface.WriteColor("{darkGray}storage{reset}> ");
 
                 var input = Console.ReadLine()?.Trim();

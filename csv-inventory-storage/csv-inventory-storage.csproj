@@ -66,11 +66,24 @@
     <Compile Include="Cli\Interface.cs" />
     <Compile Include="Cli\Commands\FindItem.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Reflection.cs" />
+    <Compile Include="Utils\Reflection.cs" />
+    <Compile Include="Serialization\BinarySerializer.cs" />
+    <Compile Include="Utils\Crypto.cs" />
+    <Compile Include="UI\Renderer.cs" />
+    <Compile Include="UI\Forms\IForm.cs" />
+    <Compile Include="UI\Forms\Index.cs" />
+    <Compile Include="UI\Option.cs" />
+    <Compile Include="UI\Forms\ItemList.cs" />
+    <Compile Include="UI\Forms\ItemView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Utils\" />
+    <Folder Include="UI\" />
+    <Folder Include="UI\Forms\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

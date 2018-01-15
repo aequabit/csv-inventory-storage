@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 ﻿using System.IO;
 using System.Linq;
 using CSVInventoryStorage.Inventory;
@@ -28,7 +29,7 @@ namespace CSVInventoryStorage.Cli.Commands
             var final = CsvSerializer.Headers(typeof(Item));
 	        final = Storage.GetInstance().GetItems().Aggregate(final, (current, item) => current + ('\n' + item.ToCsv()));
 
-			if (!path.EndsWith(".csv"))
+			if (!path.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
 				path = path + ".csv";
 			
 

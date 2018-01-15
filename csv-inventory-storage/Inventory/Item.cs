@@ -5,7 +5,8 @@ using CSVInventoryStorage.Serialization;
 
 namespace CSVInventoryStorage.Inventory
 {
-    class Item
+    [Serializable]
+    public class Item
     {
 	    /// <summary>
         /// Description of the item.
