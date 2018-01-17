@@ -4,7 +4,7 @@
 # Requirements
 - Usage of methods
 - Error handling using Exceptions
-- Usage of arrays
+- Usage of Arrays
 - Usage of `StreamWriter` and `StreamReader`
 - Exporting items to Excel compilant CSV
 - File IO using `Directory`, `File` and `Path`
@@ -16,6 +16,7 @@
 
 # To do:
 - [ ] Editing of items
+- [ ] Fix post-delete form
 - [x] Live serialization and caching of items to improve stability
 - [x] Form based UI instead of a command line interface.
 - [ ] Improving form states
