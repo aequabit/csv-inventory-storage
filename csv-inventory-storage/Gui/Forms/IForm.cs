@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using CSVInventoryStorage.UI.Controls;
+using CSVInventoryStorage.Gui.Controls;
 
-namespace CSVInventoryStorage.UI.Forms
+namespace CSVInventoryStorage.Gui.Forms
 {
     public interface IForm
     {
 		string Name();
         List<IControl> Controls();
+        bool Proxy();
+        bool KeyDown(ConsoleKeyInfo key);
     }
 }

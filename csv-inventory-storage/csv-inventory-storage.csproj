@@ -69,12 +69,23 @@
     <Compile Include="Utils\Reflection.cs" />
     <Compile Include="Serialization\BinarySerializer.cs" />
     <Compile Include="Utils\Crypto.cs" />
-    <Compile Include="UI\Renderer.cs" />
-    <Compile Include="UI\Forms\IForm.cs" />
-    <Compile Include="UI\Forms\Index.cs" />
-    <Compile Include="UI\Option.cs" />
-    <Compile Include="UI\Forms\ItemList.cs" />
-    <Compile Include="UI\Forms\ItemView.cs" />
+    <Compile Include="Gui\Renderer.cs" />
+    <Compile Include="Gui\Forms\IForm.cs" />
+    <Compile Include="Gui\Forms\Index.cs" />
+    <Compile Include="Gui\Forms\ItemList.cs" />
+    <Compile Include="Gui\Forms\ItemView.cs" />
+    <Compile Include="Gui\Helper.cs" />
+    <Compile Include="Gui\Controls\IControl.cs" />
+    <Compile Include="Gui\Controls\Label.cs" />
+    <Compile Include="Gui\Controls\Button.cs" />
+    <Compile Include="Gui\Forms\ItemDelete.cs" />
+    <Compile Include="Gui\Controls\TextBox.cs" />
+    <Compile Include="Gui\Forms\TextInput.cs" />
+    <Compile Include="Gui\Forms\ItemAdd.cs" />
+    <Compile Include="Gui\Forms\YesNo.cs" />
+    <Compile Include="Cli\Commands\RunGui.cs" />
+    <Compile Include="Exceptions\DeprecationException.cs" />
+    <Compile Include="Inventory\Cache.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -82,8 +93,10 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Utils\" />
-    <Folder Include="UI\" />
-    <Folder Include="UI\Forms\" />
+    <Folder Include="Gui\" />
+    <Folder Include="Gui\Forms\" />
+    <Folder Include="Gui\Controls\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

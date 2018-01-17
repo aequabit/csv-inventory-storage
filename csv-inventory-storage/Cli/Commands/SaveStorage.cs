@@ -7,7 +7,7 @@ using CSVInventoryStorage.Serialization;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-	internal class SaveStorage : ICommand
+	class SaveStorage : ICommand
     {
         public string CommandName() => "saveStorage";
 

@@ -1,11 +1,14 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using CSVInventoryStorage.Utils;
 
 namespace CSVInventoryStorage.Serialization
 {
-	internal class CsvSerializer
+    class CsvSerializer
     {
         static readonly Dictionary<Type, Func<object, string>> Serializers = new Dictionary<Type, Func<object, string>>
         {
@@ -16,14 +19,18 @@ namespace CSVInventoryStorage.Serialization
         {
             { typeof(DateTime), val => {
                   DateTime parsed;
-                  var      success = DateTime.TryParse(val, out parsed);
+                  var success = DateTime.TryParse(val, out parsed);
                   if (!success) return null;
 
                   return parsed;
               } }
         };
 
-        // TODO: cleanup
+        /// <summary>
+        /// Trims quotes from a CSV value.
+        /// </summary>
+        /// <returns>The trimmed string.</returns>
+        /// <param name="str">String to trim.</param>
         static string TrimQuotes(string str)
         {
             if (str.StartsWith("\"", StringComparison.OrdinalIgnoreCase))
@@ -85,11 +92,36 @@ namespace CSVInventoryStorage.Serialization
         }
 
         /// <summary>
+        /// Serializes a list of objects.
+        /// </summary>
+        /// <returns>The serialized list of objects as a CSV string.</returns>
+        /// <param name="objects">List of objects to serialize.</param>
+        public static string SerializeList(IList objects)
+        {
+            if (objects.Count == 0)
+                return null;
+
+            var builder = new StringBuilder();
+
+            builder.Append(Headers(objects[0]));
+
+            foreach (var obj in objects)
+                builder.Append('\n' + Serialize(obj));
+
+            return builder.ToString();
+        }
+
+        /// <summary>
         /// Serializes an object.
         /// </summary>
+        /// <returns>The serialized object as a CSV string.</returns>
         /// <param name="obj">Object to serialize.</param>
         public static string Serialize(object obj)
         {
+            // TODO: sue microsoft
+            if (obj.GetType().ToString().Contains("System.Collections.Generic.List"))
+                return SerializeList((IList)obj);
+
             var props = obj.GetType().GetProperties().Where(
                 p => p.GetCustomAttributes(typeof(CsvSerializableAttribute), true).Length != 0);
 
@@ -114,16 +146,37 @@ namespace CSVInventoryStorage.Serialization
         /// Deserializes CSV data to an object.
         /// </summary>
         /// <param name="csv">CSV to deserialize.</param>
+        public static List<T> DeserializeList<T>(string csv, bool containsHeader = true)
+        {
+            var entries = csv.Split('\n').ToList();
+
+            if (!entries.Any() || (containsHeader && entries.Count() == 1))
+                return null;
+
+            if (containsHeader)
+                entries.RemoveAt(0);
+
+            var final = new List<T>();
+            foreach (var entry in entries)
+                final.Add(Deserialize<T>(entry));
+
+            return final;
+        }
+
+        /// <summary>
+        /// Deserializes CSV data to an object.
+        /// </summary>
+        /// <param name="csv">CSV to deserialize.</param>
         public static T Deserialize<T>(string csv)
         {
-            var props = Headers(typeof(T)).Split(';').ToList();
+            var props = Headers<T>().Split(';').ToList();
             var values = csv.Split(';').ToList();
 
             var obj = (T)Activator.CreateInstance(typeof(T));
 
             for (var i = 0; i < props.Count(); i++)
             {
-                var propName = props.ElementAt(i);
+                var propName = props[i];
                 var prop = obj.GetType().GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
 
                 if (prop == null || !prop.CanWrite) continue;
@@ -132,7 +185,7 @@ namespace CSVInventoryStorage.Serialization
 
                 var val = values.ElementAt(i);
 
-	            var final = Deserializers.ContainsKey(type) ? Deserializers[type](val) : val.Trim('"');
+                var final = Deserializers.ContainsKey(type) ? Deserializers[type](val) : val.Trim('"');
 
                 prop.SetValue(obj, final, null);
             }

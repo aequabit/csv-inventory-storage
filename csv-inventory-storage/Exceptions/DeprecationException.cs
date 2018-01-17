@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace CSVInventoryStorage.Gui.Exceptions
+namespace CSVInventoryStorage.Exceptions
 {
 	public class DeprecationException : Exception
 	{
-		public CommandRegisterException() { }
-		public CommandRegisterException(string message) : base(message) { }
-		public CommandRegisterException(string message, Exception innerException) : base(message, innerException) { }
+		public DeprecationException() { }
+		public DeprecationException(string message) : base(message) { }
+		public DeprecationException(string message, Exception innerException) : base(message, innerException) { }
 	}
 }

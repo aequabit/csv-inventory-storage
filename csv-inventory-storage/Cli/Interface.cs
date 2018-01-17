@@ -12,6 +12,7 @@ namespace CSVInventoryStorage.Cli
         /// <summary>
         /// Console.Write proxy with color tags.
         /// </summary>
+        /// <example>Interface.WriteColor("{red}this text is red {green}and this is green")</example>
         /// <param name="value">Value to write.</param>
         /// <param name="args">Optional formatting arguments.</param>
         public static void WriteColor(string value, params object[] args)
@@ -36,7 +37,7 @@ namespace CSVInventoryStorage.Cli
                 {
                     var color = colors[i].ToLower();
                     var colorMap = Reflection.EnumToDictionary<ConsoleColor>();
-                    if (colorMap.ContainsKey(color))
+                    if (colorMap.ContainsKey(color) && s.Length > 1)
                         Console.ForegroundColor = (ConsoleColor)colorMap[color];
                     else if (color == "reset")
                         Console.ResetColor();
@@ -48,12 +49,13 @@ namespace CSVInventoryStorage.Cli
 			Console.ResetColor();
 		}
 
-        /// <summary>
-        /// Console.WriteLine proxy with color tags.
-        /// </summary>
-        /// <param name="value">Value to write.</param>
-        /// <param name="args">Optional formatting arguments.</param>
-        public static void WriteLineColor(string value, params object[] args) => WriteColor(value + '\n', args);
+		/// <summary>
+		/// Console.WriteLine proxy with color tags.
+		/// </summary>
+		/// <example>Interface.WriteLineColor("{red}this text is red {green}and this is green")</example>
+		/// <param name="value">Value to write.</param>
+		/// <param name="args">Optional formatting arguments.</param>
+		public static void WriteLineColor(string value, params object[] args) => WriteColor(value + '\n', args);
 
         /// <summary>
         /// Prints a yes/no question and gets the answer as a boolean.

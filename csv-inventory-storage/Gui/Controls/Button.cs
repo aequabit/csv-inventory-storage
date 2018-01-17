@@ -1,11 +1,14 @@
 ﻿using System;
-namespace CSVInventoryStorage.UI.Controls
+
+namespace CSVInventoryStorage.Gui.Controls
 {
 	public class Button : IControl
 	{
-        private ConsoleKey Trigger;
-		private string Text;
-        private Func<bool> Action;
+        ConsoleKey Trigger;
+
+        string Text;
+
+        Func<bool> Action;
 
 		public Button(ConsoleKey trigger, string text, Func<bool> action)
 		{

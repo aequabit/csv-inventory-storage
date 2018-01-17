@@ -1,17 +1,25 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using CSVInventoryStorage.Inventory.Exceptions;
 
 namespace CSVInventoryStorage.Inventory
 {
     class Storage
     {
-        static string StorageDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        /// <summary>
+        /// Current intance.
+        /// </summary>
+        static Storage Instance;
 
-		static Storage _instance;
-        List<Item> _items = new List<Item>();
+        /// <summary>
+        /// List of items in the storage.
+        /// </summary>
+        List<Item> Items = new List<Item>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CSVInventoryStorage.Inventory.Storage"/> class.
+        /// </summary>
+        Storage() => Cache.Initialize();
 
         /// <summary>
         /// Gets the current instance.
@@ -19,7 +27,12 @@ namespace CSVInventoryStorage.Inventory
         /// <returns>Storage instance.</returns>
         public static Storage GetInstance()
         {
-            return _instance ?? (_instance = new Storage());
+            if (Instance == null)
+                Instance = new Storage();
+
+            Instance.SetItems(Cache.RetrieveItems(), false);
+
+            return Instance;
         }
 
         /// <summary>
@@ -28,25 +41,19 @@ namespace CSVInventoryStorage.Inventory
         /// <param name="item">Item to add.</param>
         public void AddItem(Item item)
         {
-            if (_items.Any(x => x.InventoryId == item.InventoryId))
+            if (Items.Any(x => x.InventoryId == item.InventoryId))
                 throw new InventoryStorageException("Inventory ID already in storage");
 
-            _items.Add(item);
+            Cache.CacheItem(item);
 
-
+            Items.Add(item);
         }
 
         /// <summary>
         /// Removes an item from the storage.
         /// </summary>
         /// <param name="item">Item to remove.</param>
-        public void RemoveItem(Item item)
-        {
-            if (_items.Any(x => x.InventoryId == item.InventoryId))
-                throw new InventoryStorageException("Inventory ID not in storage");
-
-            _items.Remove(item);
-        }
+        public void RemoveItem(Item item) => RemoveItem(item.InventoryId);
 
         /// <summary>
         /// Removes an item from the storage.
@@ -54,20 +61,28 @@ namespace CSVInventoryStorage.Inventory
         /// <param name="inventoryId">Inventory ID of the item.</param>
         public void RemoveItem(string inventoryId)
         {
-            if (_items.All(x => x.InventoryId != inventoryId))
+            if (Items.All(x => x.InventoryId != inventoryId))
                 throw new InventoryStorageException("Inventory ID not in storage");
 
-            _items.RemoveAll(x => x.InventoryId == inventoryId);
+            var match = Items.Find(item => item.InventoryId == inventoryId);
+            if (match != null)
+                Cache.RemoveItem(match);
+
+			Items.RemoveAll(x => x.InventoryId == inventoryId);
         }
 
         /// <summary>
         /// Sets the item list.
         /// </summary>
         /// <param name="items">Item list.</param>
-        public void SetItems(List<Item> items)
+        /// <param name="updateCache">If true, the cache will be overwritten with the new items.</param>
+        public void SetItems(List<Item> items, bool overwriteCache = true)
         {
-            _items = items;
-        }
+            Items = items;
+
+            if (overwriteCache)
+				Cache.SetItems(items);
+		}
 
         /// <summary>
         /// Gets the item list.
@@ -75,7 +90,7 @@ namespace CSVInventoryStorage.Inventory
         /// <returns>List of items.</returns>
         public List<Item> GetItems()
         {
-            return _items;
+            return Items;
         }
 
         /// <summary>
@@ -108,7 +123,7 @@ namespace CSVInventoryStorage.Inventory
         /// <param name="inventoryId">Inventory ID.</param>
         public Item GetItemById(string inventoryId)
         {
-            var matches = _items.Where(x => x.InventoryId == inventoryId);
+            var matches = Items.Where(x => x.InventoryId == inventoryId);
 
             var inventoryItems = matches as Item[] ?? matches.ToArray();
             return !inventoryItems.Any() ? null : inventoryItems.First();
@@ -121,7 +136,7 @@ namespace CSVInventoryStorage.Inventory
         /// <param name="serialNumber">Serial number.</param>
         public Item GetItemBySerialNumber(string serialNumber)
         {
-            var matches = _items.Where(x => x.SerialNumber == serialNumber);
+            var matches = Items.Where(x => x.SerialNumber == serialNumber);
 
             var inventoryItems = matches as Item[] ?? matches.ToArray();
             return !inventoryItems.Any() ? null : inventoryItems.First();

@@ -4,7 +4,7 @@ using CSVInventoryStorage.Inventory;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-	internal class ListItems : ICommand
+	class ListItems : ICommand
     {
         public string CommandName() => "listItems";
 

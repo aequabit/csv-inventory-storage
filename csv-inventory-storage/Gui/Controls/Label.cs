@@ -1,15 +1,20 @@
 ﻿using System;
 
-namespace CSVInventoryStorage.UI.Controls
+namespace CSVInventoryStorage.Gui.Controls
 {
     public class Label : IControl
     {
-        private string Text;
+        string Text;
 
         public Label(string text)
         {
             Text = text;
         }
+
+		public Label(string text, params object[] args)
+		{
+            Text = String.Format(text, args);
+		}
 
         public string GetText() => Text;
 

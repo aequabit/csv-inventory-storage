@@ -1,39 +1,31 @@
 ﻿using System;
 using CSVInventoryStorage.Cli;
 using CSVInventoryStorage.Cli.Commands;
+using CSVInventoryStorage.Extensions;
+using CSVInventoryStorage.Gui;
+using CSVInventoryStorage.Gui.Forms;
 
 namespace CSVInventoryStorage
 {
-    internal class Program
+    class Program
     {
-        private static void Main()
+        static void RunGui()
         {
-            Inventory.Storage.GetInstance().AddItem(new Inventory.Item()
+            try
             {
-                Description = "test item",
-                InventoryGroup = "group1",
-                InventoryId = "id1",
-                SerialNumber = "#123",
-                AddedAt = DateTime.Now,
-                AddedBy = System.Security.Principal.WindowsIdentity.GetCurrent().Name
-            });
+                Renderer.Render(new Index());
+            }
+            catch (Exception ex)
+            {
+                Renderer.SetError(ex.Message);
+            }
+        }
 
-			Inventory.Storage.GetInstance().AddItem(new Inventory.Item()
-			{
-				Description = "test item",
-				InventoryGroup = "group2",
-				InventoryId = "id2",
-				SerialNumber = "#456",
-				AddedAt = DateTime.Now,
-				AddedBy = System.Security.Principal.WindowsIdentity.GetCurrent().Name
-			});
-
-            var index = new UI.Forms.Index();
-            UI.Renderer.Render(index);
-
-            return;
+        static void RunCli()
+        {
             Console.WriteLine("Inventory Storage\n\nType 'help' to show usage information\n");
 
+            Processor.RegisterCommand(new RunGui());
             Processor.RegisterCommand(new AddItem());
             Processor.RegisterCommand(new RemoveItem());
             Processor.RegisterCommand(new FindItem());
@@ -51,7 +43,7 @@ namespace CSVInventoryStorage
                 string processed;
                 try
                 {
-                    processed = Processor.Process(input);
+                    processed = Processor.Process(input.Trim());
                 }
                 catch (Exception ex)
                 {
@@ -61,6 +53,13 @@ namespace CSVInventoryStorage
 
                 Interface.WriteColor("{0}\n\n", processed);
             }
+        }
+
+        static void Main(string[] args)
+        {
+            if (args.Length == 0 || (args.Length > 0 && args[0] != "-cli"))
+                RunGui();
+            RunCli();
         }
     }
 }

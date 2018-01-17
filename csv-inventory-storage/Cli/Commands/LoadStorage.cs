@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CSVInventoryStorage.Inventory;
@@ -6,7 +7,7 @@ using CSVInventoryStorage.Serialization;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-	internal class LoadStorage : ICommand
+	class LoadStorage : ICommand
     {
         public string CommandName() => "loadStorage";
 
@@ -19,7 +20,7 @@ namespace CSVInventoryStorage.Cli.Commands
         public string Action(List<string> args)
         {
             var path = args[0];
-	        if (!path.EndsWith(".csv"))
+	        if (!path.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
 		        path = path + ".csv";
 
 			if (!File.Exists(path))

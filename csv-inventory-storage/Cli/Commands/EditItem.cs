@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CSVInventoryStorage.Cli.Commands
 {
-	internal class EditItem : ICommand
+	class EditItem : ICommand
     {
         public string CommandName() => "editItem";
 
-        public int ArgCount() => 1;
+        public int ArgCount() => -1;
 
 		public string Usage() => $"{CommandName()} <...>";
 		
@@ -14,7 +15,8 @@ namespace CSVInventoryStorage.Cli.Commands
 
         public string Action(List<string> args)
         {
-            return "";
+            // TODO: implement edit command
+            throw new NotImplementedException("editItem is not implemented yet.");
         }
     }
 }

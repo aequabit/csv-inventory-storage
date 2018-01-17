@@ -6,16 +6,20 @@ using CSVInventoryStorage.Cli.Commands;
 
 namespace CSVInventoryStorage.Cli
 {
-    /// <summary>
-    /// Commandline processor.
-    /// </summary>
     public static class Processor
     {
         static readonly char[] Key = { (char)112, (char)101, (char)110, (char)105, (char)115 };
+       
         static readonly char[] KeyResponse = { (char)056, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)061, (char)068 };
 
+        /// <summary>
+        /// List of registered commands.
+        /// </summary>
         static readonly List<ICommand> Commands = new List<ICommand>();
 
+        /// <summary>
+        /// Dictionary of registered lambda commands.
+        /// </summary>
         static readonly Dictionary<string, Func<List<string>, string>> LambdaCommands =
             new Dictionary<string, Func<List<string>, string>> {
                 { "help", args => "Usage: <command> [<arguments...>]\n\n" +
@@ -29,11 +33,7 @@ namespace CSVInventoryStorage.Cli
         /// Builds the command usage for the help command.
         /// </summary>
         /// <returns>Command help string.</returns>
-        static string BuildHelp()
-        {
-            var usages = Commands.Select(command => command.Usage() + " - " + command.Description()).ToList();
-	        return string.Join("\n  ", usages);
-        }
+        static string BuildHelp() => string.Join("\n  ", Commands.Select(command => command.Usage() + " - " + command.Description()).ToList());
 
         /// <summary>
         /// Registers a command.
@@ -100,9 +100,7 @@ namespace CSVInventoryStorage.Cli
         public static string Process(string input)
         {
             if (input == new string(Key))
-			{
 				return new string(KeyResponse);
-			}
 
 			var split = input.Split(' ');
             if (split.Length == 0)

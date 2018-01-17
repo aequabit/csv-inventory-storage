@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CSVInventoryStorage.UI
+namespace CSVInventoryStorage.Gui
 {
-    public class Helper
+    public static class Helper
     {
-        private static Dictionary<ConsoleKey, string> KeyChars = new Dictionary<ConsoleKey, string>()
+        /// <summary>
+        /// Maps certain keys to custom characters.
+        /// </summary>
+        static readonly Dictionary<ConsoleKey, string> KeyChars = new Dictionary<ConsoleKey, string>
         {
             { ConsoleKey.Backspace, "←" },
             { ConsoleKey.Enter, "↩" },
             { ConsoleKey.Escape, "Esc" }
         };
 
-        private static Dictionary<int, ConsoleKey> IndexKeyMap = new Dictionary<int, ConsoleKey>()
+        /// <summary>
+        /// Maps a control index to a key.
+        /// </summary>
+        static readonly Dictionary<int, ConsoleKey> IndexKeyMap = new Dictionary<int, ConsoleKey>
         {
             { 0, ConsoleKey.D1 },
             { 1, ConsoleKey.D2 },
@@ -26,7 +32,10 @@ namespace CSVInventoryStorage.UI
             { 9, ConsoleKey.D0 }
         };
 
-        private static Dictionary<int, ConsoleKey> DigitKeyMap = new Dictionary<int, ConsoleKey>()
+        /// <summary>
+        /// Maps a digit to it's corresponding key.
+        /// </summary>
+        static readonly Dictionary<int, ConsoleKey> DigitKeyMap = new Dictionary<int, ConsoleKey>
         {
             { 1, ConsoleKey.D1 },
             { 2, ConsoleKey.D2 },
@@ -40,7 +49,10 @@ namespace CSVInventoryStorage.UI
             { 0, ConsoleKey.D0 }
         };
 
-        private static Dictionary<ConsoleKey, int> KeyDigitMap = new Dictionary<ConsoleKey, int>()
+        /// <summary>
+        /// Maps a number key to it's corrensponding digit.
+        /// </summary>
+        static readonly Dictionary<ConsoleKey, int> KeyDigitMap = new Dictionary<ConsoleKey, int>
         {
             { ConsoleKey.D1, 1 },
             { ConsoleKey.D2, 2 },

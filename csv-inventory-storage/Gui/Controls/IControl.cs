@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CSVInventoryStorage.UI.Controls
+﻿namespace CSVInventoryStorage.Gui.Controls
 {
     public interface IControl
     {
