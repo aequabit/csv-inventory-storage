@@ -9,6 +9,11 @@
 - Exporting items to Excel compilant CSV
 - File IO using `Directory`, `File` and `Path`
 
+# Features
+- Command and GUI interface
+- Live caching of items to prevent data loss on crashes
+- Excel compilant CSV export
+
 # To do:
 - [ ] Editing of items
 - [x] Live serialization and caching of items to improve stability

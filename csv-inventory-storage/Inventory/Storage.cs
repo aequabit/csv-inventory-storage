@@ -71,12 +71,12 @@ namespace CSVInventoryStorage.Inventory
 			Items.RemoveAll(x => x.InventoryId == inventoryId);
         }
 
-        /// <summary>
-        /// Sets the item list.
-        /// </summary>
-        /// <param name="items">Item list.</param>
-        /// <param name="updateCache">If true, the cache will be overwritten with the new items.</param>
-        public void SetItems(List<Item> items, bool overwriteCache = true)
+		/// <summary>
+		/// Sets the item list.
+		/// </summary>
+		/// <param name="items">Item list.</param>
+		/// <param name="overwriteCache">If true, the cache will be overwritten with the new items.</param>
+		public void SetItems(List<Item> items, bool overwriteCache = true)
         {
             Items = items;
 
