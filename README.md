@@ -2,12 +2,12 @@
 ### School project for warehouse management
 
 # Requirements
-- Usage of methods
-- Error handling using Exceptions
-- Usage of Arrays
-- Usage of `StreamWriter` and `StreamReader`
-- Exporting items to Excel compilant CSV
-- File IO using `Directory`, `File` and `Path`
+- [x] Usage of methods
+- [x] Error handling using Exceptions
+- [x] Usage of Arrays
+- [ ] Usage of `StreamWriter` and `StreamReader`
+- [x] Exporting items to Excel compilant CSV
+- [x] File IO using `Directory`, `File` and `Path`
 
 # Features
 - Command and GUI interface
@@ -22,3 +22,4 @@
 - [ ] Improving form states
 - [ ] Seperate forms instead of spawning them on top of each other
 - [ ] Use one render loop instead of giving each form a seperate one
+- [ ] Duplicate serial number warning in GUI mode
