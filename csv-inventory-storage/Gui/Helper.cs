@@ -10,8 +10,8 @@ namespace CSVInventoryStorage.Gui
         /// </summary>
         static readonly Dictionary<ConsoleKey, string> KeyChars = new Dictionary<ConsoleKey, string>
         {
-            { ConsoleKey.Backspace, "←" },
-            { ConsoleKey.Enter, "↩" },
+            { ConsoleKey.Backspace, "Back" },
+            { ConsoleKey.Enter, "Enter" },
             { ConsoleKey.Escape, "Esc" }
         };
 
