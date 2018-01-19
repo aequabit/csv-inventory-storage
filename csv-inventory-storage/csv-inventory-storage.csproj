@@ -81,7 +81,6 @@
     <Compile Include="Gui\Forms\ItemDelete.cs" />
     <Compile Include="Gui\Controls\TextBox.cs" />
     <Compile Include="Gui\Forms\TextInput.cs" />
-    <Compile Include="Gui\Forms\ItemAdd.cs" />
     <Compile Include="Gui\Forms\YesNo.cs" />
     <Compile Include="Cli\Commands\RunGui.cs" />
     <Compile Include="Exceptions\DeprecationException.cs" />
