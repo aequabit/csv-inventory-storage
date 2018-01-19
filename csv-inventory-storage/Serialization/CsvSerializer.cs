@@ -53,7 +53,7 @@ namespace CSVInventoryStorage.Serialization
                 val = val.Replace("\"", "\"\"");
 
             if (val.Contains(";") || val.Contains("\r") || val.Contains("\n"))
-                val = "\"" + val + "\""; // TODO: cleanup
+                val = $"\"{val}\"";
 
             return val;
         }
